@@ -4,7 +4,7 @@ const state = {
   password: '',
   role: 0,
   hostlist: [],
-  stomp:null
+  host: null
 }
 
 export default state

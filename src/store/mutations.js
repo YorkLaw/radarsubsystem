@@ -16,9 +16,9 @@ const mutations = {
   [types.SET_HOST] (state, hostlist) {
     state.hostlist = hostlist
   },
-  [types.SET_STOMP] (state, stomp) {
-    state.stomp = stomp
-  },
+  [types.SET_THEHOST] (state, host) {
+    state.host = host
+  }
 }
 
 export default mutations

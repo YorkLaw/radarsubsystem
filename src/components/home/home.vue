@@ -295,15 +295,26 @@ export default {
       _setuserRole: 'SET_ROLE',
       _sethostlist: 'SET_HOST'
     }),
+    getAll () {
+      alert("location:" + window.location);
 
+      alert("href: " + window.location.href);
+
+      alert("protocol: " + window.location.protocol);
+
+      alert("host&port: " + window.location.host);
+
+      alert("port: " + window.location.port);
+
+      alert("hostname: " + window.location.hostname);
+    },
     connect () {	//定义连接函数
       if (this.stomp == null || !this.stomp.connected) {
-        this.stomp = Stomp.over(new SockJS('http://127.0.0.1:8090' + '/stomp'))
+        this.stomp = Stomp.over(new SockJS('http://192.168.31.171:8090' + '/stomp'))//打包时改成window.location.host
         // this._setstomp(stomp)
-        //this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
-        //this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
+        this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
+        this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
         this.stomp.connect({}, this.connectCallback, this.errorCallback);
-
       } else {
         console.log("当前处于连接状态");
       }
@@ -343,7 +354,7 @@ export default {
         cir[that.position].style.backgroundColor = "#19be6b"
       })
     },
-    errorCallback () {//连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
+    errorCallback (e) {//连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
       alert("当前登录状态信息已过期，请重新登录");
       this.exit()
       this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
@@ -358,6 +369,8 @@ export default {
       }, {});
       this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
       }, {});
+      console.log(e)
+      console.log(CloseEvent)
     }
   },
   computed: {
