@@ -216,39 +216,51 @@
                   <Card class="lishow"
                         style="padding:0">{{radarSub[0].cabliworkheat}}</Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">测向处理组件状态</p>
-                
+                <div style="width:100%;height:300px;margin:0 auto;display:flex;justify-content:space-between">
+                  <div class="smallBlock smallBlock1"
+                       @click="item01control">测向处理组件状态</div>
+                  <div class="smallBlock smallBlock2"
+                       @click="item02control">侦察处理组件状态</div>
+                  <div class="smallBlock smallBlock3"
+                       @click="item03control">信号分选组件状态</div>
+                  <div class="smallBlock smallBlock4"
+                       @click="item04control">系统控制组件状态</div>
+                  <div class="smallBlock smallBlock5"
+                       @click="item05control">中频存储组件状态</div>
+                </div>
+
                 <FormItem v-for="(value, key, index) in radarSub[0].besidemanage"
-                          :label="key">
+                          :label="key"
+                          v-show="item01">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">侦察处理组件状态</p>
-                
-                 <FormItem v-for="(value, key, index) in radarSub[0].reconnoitre"
-                          :label="key">
+
+                <FormItem v-for="(value, key, index) in radarSub[0].reconnoitre"
+                          :label="key"
+                          v-show="item02">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr2[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">信号分选组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[0].signal"
-                          :label="key">
+                          :label="key"
+                          v-show="item03">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr3[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">系统控制组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[0].sysctrl"
-                          :label="key">
+                          :label="key"
+                          v-show="item04">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr4[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">中频存储组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[0].save"
-                          :label="key">
+                          :label="key"
+                          v-show="item05">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr5[index]]}}
                   </Card>
@@ -477,39 +489,51 @@
                   <Card class="lishow"
                         style="padding:0">{{radarSub[1].cabliworkheat}}</Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">测向处理组件状态</p>
-                
+                <div style="width:100%;height:300px;margin:0 auto;display:flex;justify-content:space-between">
+                  <div class="smallBlock smallBlock1"
+                       @click="item11control">测向处理组件状态</div>
+                  <div class="smallBlock smallBlock2"
+                       @click="item12control">侦察处理组件状态</div>
+                  <div class="smallBlock smallBlock3"
+                       @click="item13control">信号分选组件状态</div>
+                  <div class="smallBlock smallBlock4"
+                       @click="item14control">系统控制组件状态</div>
+                  <div class="smallBlock smallBlock5"
+                       @click="item15control">中频存储组件状态</div>
+                </div>
+
                 <FormItem v-for="(value, key, index) in radarSub[1].besidemanage"
-                          :label="key">
+                          :label="key"
+                          v-show="item11">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">侦察处理组件状态</p>
-                
-                 <FormItem v-for="(value, key, index) in radarSub[1].reconnoitre"
-                          :label="key">
+
+                <FormItem v-for="(value, key, index) in radarSub[1].reconnoitre"
+                          :label="key"
+                          v-show="item12">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr2[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">信号分选组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[1].signal"
-                          :label="key">
+                          :label="key"
+                          v-show="item13">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr3[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">系统控制组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[1].sysctrl"
-                          :label="key">
+                          :label="key"
+                          v-show="item14">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr4[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">中频存储组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[1].save"
-                          :label="key">
+                          :label="key"
+                          v-show="item15">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr5[index]]}}
                   </Card>
@@ -736,39 +760,50 @@
                   <Card class="lishow"
                         style="padding:0">{{radarSub[2].cabliworkheat}}</Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">测向处理组件状态</p>
-                <!-- 这才是正统的写法，宇哥大法好！！！ -->
+                <div style="width:100%;height:300px;margin:0 auto;display:flex;justify-content:space-between">
+                  <div class="smallBlock smallBlock1"
+                       @click="item21control">测向处理组件状态</div>
+                  <div class="smallBlock smallBlock2"
+                       @click="item22control">侦察处理组件状态</div>
+                  <div class="smallBlock smallBlock3"
+                       @click="item23control">信号分选组件状态</div>
+                  <div class="smallBlock smallBlock4"
+                       @click="item24control">系统控制组件状态</div>
+                  <div class="smallBlock smallBlock5"
+                       @click="item25control">中频存储组件状态</div>
+                </div>
                 <FormItem v-for="(value, key, index) in radarSub[2].besidemanage"
-                          :label="key">
+                          :label="key"
+                          v-show="item21">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">侦察处理组件状态</p>
-                
-                 <FormItem v-for="(value, key, index) in radarSub[2].reconnoitre"
-                          :label="key">
+
+                <FormItem v-for="(value, key, index) in radarSub[2].reconnoitre"
+                          :label="key"
+                          v-show="item22">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr2[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">信号分选组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[2].signal"
-                          :label="key">
+                          :label="key"
+                          v-show="item23">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr3[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">系统控制组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[2].sysctrl"
-                          :label="key">
+                          :label="key"
+                          v-show="item24">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr4[index]]}}
                   </Card>
                 </FormItem>
-                <p style="font-size: 14px;font-weight: 800;margin-left: 10px;">中频存储组件状态</p>
                 <FormItem v-for="(value, key, index) in radarSub[2].save"
-                          :label="key">
+                          :label="key"
+                          v-show="item25">
                   <Card class="lishow"
                         style="padding:0">{{valMap[numArr5[index]]}}
                   </Card>
@@ -801,9 +836,7 @@
     </Card>
   </div>
 </template>
- <script> 
-import Stomp from 'stompjs'
-import SockJS from 'sockjs-client'
+<script>
 import heartbeatInspection from 'components/heartbeatInspection/heartbeatInspection'
 import reportHeartbeatinfo from 'components/reportHeartbeatinfo/reportHeartbeatinfo'
 import reportInspectionresult from 'components/reportInspectionresult/reportInspectionresult'
@@ -821,43 +854,58 @@ export default {
       numArr4: [],
       numArr5: [],
       insresult: [
-        {          sysworkstatus: '正常',
+        { sysworkstatus: '正常',
           eneworkstatus: '正常',
           secondworkstatus: '正常',
-          otherworkstatus: '正常'        },
-        {          sysworkstatus: '正常',
+          otherworkstatus: '正常' },
+        { sysworkstatus: '正常',
           eneworkstatus: '正常',
           secondworkstatus: '正常',
-          otherworkstatus: '正常'        },
-        {          sysworkstatus: '正常',
+          otherworkstatus: '正常' },
+        { sysworkstatus: '正常',
           eneworkstatus: '正常',
           secondworkstatus: '正常',
-          otherworkstatus: '正常'        }
+          otherworkstatus: '正常' }
       ],
       card2: false,
+      item01: false,
+      item02: false,
+      item03: false,
+      item04: false,
+      item05: false,
+      item11: false,
+      item12: false,
+      item13: false,
+      item14: false,
+      item15: false,
+      item21: false,
+      item22: false,
+      item23: false,
+      item24: false,
+      item25: false,
       timeshow4: false,
       timeshow5: false,
       timeshow6: false,
       tempdevice: 1,
-      valMap:{"0":"正常","1":"不正常"},
+      valMap: { '0': '正常', '1': '不正常' },
       arr: [],
       position: 0,
       heartinfo: [{
         sysworkstatus: '正常',
         eneworkstatus: '正常',
         secondworkstatus: '正常',
-        otherworkstatus: '正常'      },
+        otherworkstatus: '正常' },
       {
         sysworkstatus: '正常',
         eneworkstatus: '正常',
         secondworkstatus: '正常',
-        otherworkstatus: '正常'      },
+        otherworkstatus: '正常' },
       {
         sysworkstatus: '正常',
         eneworkstatus: '正常',
         secondworkstatus: '正常',
-        otherworkstatus: '正常'      }],
-      deviceparamsinfo: [{        cmd: '12',
+        otherworkstatus: '正常' }],
+      deviceparamsinfo: [{ cmd: '12',
         networkIP1: '',
         networkMacIP1: '',
         networkMessage1: '',
@@ -875,7 +923,7 @@ export default {
         networkMessage5: '',
         networkIP6: '',
         networkMacIP6: '',
-        networkMessage6: '',      }, {        cmd: '12',
+        networkMessage6: '' }, { cmd: '12',
         networkIP1: '',
         networkMacIP1: '',
         networkMessage1: '',
@@ -893,7 +941,7 @@ export default {
         networkMessage5: '',
         networkIP6: '',
         networkMacIP6: '',
-        networkMessage6: '',      }, {        cmd: '12',
+        networkMessage6: '' }, { cmd: '12',
         networkIP1: '',
         networkMacIP1: '',
         networkMessage1: '',
@@ -911,7 +959,7 @@ export default {
         networkMessage5: '',
         networkIP6: '',
         networkMacIP6: '',
-        networkMessage6: '',      }],
+        networkMessage6: '' }],
       radarSub: [
         {
           sendnum: '',
@@ -930,7 +978,7 @@ export default {
             K7_DDR: '',
             K7A_GTX: '',
             K7B_GTX: '',
-            Z7_GTX: '',          },
+            Z7_GTX: '' },
           reconnoitre: {
             AD: '',
             K7A: '',
@@ -941,7 +989,7 @@ export default {
             K7_DDR: '',
             K7A_GTX: '',
             K7B_GTX: '',
-            Z7_GTX: '',          },
+            Z7_GTX: '' },
           signal: {
             DSP_A: '',
             DSP_B: '',
@@ -960,18 +1008,18 @@ export default {
             PS_DDR: '',
             DSP_SRIO: '',
             K7_GTX: '',
-            Z7_GTX: '',
+            Z7_GTX: ''
           },
           save: {
             SATA_1: '',
             SATA_2: '',
             SATA_3: '',
-            SATA_4: '',
+            SATA_4: ''
           },
           pulsenum: '',
           radiant: '',
           IFdata: '',
-          devicenum: '',
+          devicenum: ''
         },
         {
           sendnum: '',
@@ -990,7 +1038,7 @@ export default {
             K7_DDR: '',
             K7A_GTX: '',
             K7B_GTX: '',
-            Z7_GTX: '',          },
+            Z7_GTX: '' },
           reconnoitre: {
             AD: '',
             K7A: '',
@@ -1001,7 +1049,7 @@ export default {
             K7_DDR: '',
             K7A_GTX: '',
             K7B_GTX: '',
-            Z7_GTX: '',          },
+            Z7_GTX: '' },
           signal: {
             DSP_A: '',
             DSP_B: '',
@@ -1020,18 +1068,18 @@ export default {
             PS_DDR: '',
             DSP_SRIO: '',
             K7_GTX: '',
-            Z7_GTX: '',
+            Z7_GTX: ''
           },
           save: {
             SATA_1: '',
             SATA_2: '',
             SATA_3: '',
-            SATA_4: '',
+            SATA_4: ''
           },
           pulsenum: '',
           radiant: '',
           IFdata: '',
-          devicenum: '',
+          devicenum: ''
         },
         {
           sendnum: '',
@@ -1062,7 +1110,7 @@ export default {
             K7_DDR: '',
             K7A_GTX: '',
             K7B_GTX: '',
-            Z7_GTX: '',          },
+            Z7_GTX: '' },
           signal: {
             DSP_A: '',
             DSP_B: '',
@@ -1081,18 +1129,18 @@ export default {
             PS_DDR: '',
             DSP_SRIO: '',
             K7_GTX: '',
-            Z7_GTX: '',
+            Z7_GTX: ''
           },
           save: {
             SATA_1: '',
             SATA_2: '',
             SATA_3: '',
-            SATA_4: '',
+            SATA_4: ''
           },
           pulsenum: '',
           radiant: '',
           IFdata: '',
-          devicenum: '',
+          devicenum: ''
         }],
       // host: ''
       stomp: null
@@ -1101,9 +1149,9 @@ export default {
   methods: {
     showOrnot () {
       if (this.tempdevice === 1) {
-        this.timeshow4 = true;
-        this.timeshow5 = false;
-        this.timeshow6 = false;
+        this.timeshow4 = true
+        this.timeshow5 = false
+        this.timeshow6 = false
       } else if (this.tempdevice === 2) {
         this.timeshow4 = false
         this.timeshow5 = true
@@ -1115,10 +1163,70 @@ export default {
       }
       // this.host = this.hostlist
     },
-    connect (stomp) {	//定义连接函数
+    item01control () {
+      this.item01 = !this.item01
+      this.item02 = this.item03 = this.item04 = this.item05 = false
+    },
+    item02control () {
+      this.item02 = !this.item02
+      this.item01 = this.item03 = this.item04 = this.item05 = false
+    },
+    item03control () {
+      this.item03 = !this.item03
+      this.item02 = this.item01 = this.item04 = this.item05 = false
+    },
+    item04control () {
+      this.item04 = !this.item04
+      this.item02 = this.item03 = this.item01 = this.item05 = false
+    },
+    item05control () {
+      this.item05 = !this.item05
+      this.item02 = this.item03 = this.item04 = this.item01 = false
+    },
+    item11control () {
+      this.item11 = !this.item11
+      this.item12 = this.item13 = this.item14 = this.item15 = false
+    },
+    item12control () {
+      this.item12 = !this.item12
+      this.item11 = this.item13 = this.item14 = this.item15 = false
+    },
+    item13control () {
+      this.item13 = !this.item13
+      this.item12 = this.item11 = this.item14 = this.item15 = false
+    },
+    item14control () {
+      this.item14 = !this.item14
+      this.item12 = this.item13 = this.item11 = this.item15 = false
+    },
+    item15control () {
+      this.item15 = !this.item15
+      this.item12 = this.item13 = this.item14 = this.item11 = false
+    },
+    item21control () {
+      this.item21 = !this.item21
+      this.item22 = this.item23 = this.item24 = this.item25 = false
+    },
+    item22control () {
+      this.item22 = !this.item22
+      this.item21 = this.item23 = this.item24 = this.item25 = false
+    },
+    item23control () {
+      this.item23 = !this.item23
+      this.item22 = this.item21 = this.item24 = this.item25 = false
+    },
+    item24control () {
+      this.item24 = !this.item24
+      this.item22 = this.item23 = this.item21 = this.item25 = false
+    },
+    item25control () {
+      this.item25 = !this.item25
+      this.item22 = this.item23 = this.item24 = this.item21 = false
+    },
+    connect (stomp) {	// 定义连接函数
       // if (this.stomp == null || !this.stomp.connected) {
       //   //var url = 'http://132.122.237.68:8164/websocket';
-        
+
       //   //this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
       //   //this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
       //   this.stomp.connect({}, this.connectCallback, this.errorCallback);
@@ -1126,62 +1234,60 @@ export default {
       //   console.log("当前处于连接状态");
       // }
       if (stomp !== null || !stomp.connected) {
-        //var url = 'http://132.122.237.68:8164/websocket';
-        
-        //this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
-        //this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
+        // var url = 'http://132.122.237.68:8164/websocket';
+
+        // this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
+        // this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
         this.stomp = stomp
         // this.stomp.connect({}, this.connectCallback, this.errorCallback);
         this.connectCallback()
       } else {
-        console.log("当前处于连接状态");
+        console.log('当前处于连接状态')
       }
     },
-    connectCallback (frame) {  //连接成功时的回调函数
+    connectCallback (frame) { // 连接成功时的回调函数
       let that = this
-      this.stomp.subscribe("/uploadHeartBeatMessage/send", function (result) {
-      that.arr=[]
-        var content = JSON.parse(result.body);
+      this.stomp.subscribe('/uploadHeartBeatMessage/send', function (result) {
+        that.arr = []
+        var content = JSON.parse(result.body)
         if (content) {
           for (var item in content) {
             for (var i in that.hostlist) {
               that.arr.push(that.hostlist[i].host)
             }
           }
-          that.position = that.arr.indexOf(content[item].host)//判断获取的host在hostlist列表里的位置
-          that.heartinfo[that.position].sysworkstatus = content[item].radarSubSystem.replace("0","正常").replace("1","异常")
-          that.heartinfo[that.position].eneworkstatus = content[item].friendOrFoe.replace("0","正常").replace("1","异常")
-          that.heartinfo[that.position].secondworkstatus = content[item].twicePowerSupply.replace("0","正常").replace("1","异常")
-          that.heartinfo[that.position].otherworkstatus = content[item].other1.replace("0","正常").replace("1","异常")
+          that.position = that.arr.indexOf(content[item].host)// 判断获取的host在hostlist列表里的位置
+          that.heartinfo[that.position].sysworkstatus = content[item].radarSubSystem.replace('0', '正常').replace('1', '异常')
+          that.heartinfo[that.position].eneworkstatus = content[item].friendOrFoe.replace('0', '正常').replace('1', '异常')
+          that.heartinfo[that.position].secondworkstatus = content[item].twicePowerSupply.replace('0', '正常').replace('1', '异常')
+          that.heartinfo[that.position].otherworkstatus = content[item].other1.replace('0', '正常').replace('1', '异常')
         }
-      }, {});
-      this.stomp.subscribe("/uploadSelfInspectionResult/send", function (result) {
-        that.arr=[]
-        var content = JSON.parse(result.body);
-        for (var item in content) {
-            for (var i in that.hostlist) {
-              that.arr.push(that.hostlist[i].host)
-              that.position = that.arr.indexOf(content[item].host)
-
-            }
-          }
-          that.insresult[that.position].sysworkstatus = content.data.radarSubSystem.replace("0","正常").replace("1","异常")
-          that.insresult[that.position].eneworkstatus = content.data.friendOrFoe.replace("0","正常").replace("1","异常")
-          that.insresult[that.position].secondworkstatus = content.data.twicePowerSupply.replace("0","正常").replace("1","异常")
-          that.insresult[that.position].otherworkstatus = content.data.other1.replace("0","正常").replace("1","异常")
-        // console.log(that.insresult,content.data.friendOrFoe.replace("0","正常").replace("1","异常"),content.data.friendOrFoe,content[item])
-
-      }) 
-      this.stomp.subscribe("/uploadDeviceNetWorkParamMessage/send", function (result) {
+      }, {})
+      this.stomp.subscribe('/uploadSelfInspectionResult/send', function (result) {
         that.arr = []
-        var content = JSON.parse(result.body);
+        var content = JSON.parse(result.body)
+        for (var item in content) {
+          for (var i in that.hostlist) {
+            that.arr.push(that.hostlist[i].host)
+            that.position = that.arr.indexOf(content[item].host)
+          }
+        }
+        that.insresult[that.position].sysworkstatus = content.data.radarSubSystem.replace('0', '正常').replace('1', '异常')
+        that.insresult[that.position].eneworkstatus = content.data.friendOrFoe.replace('0', '正常').replace('1', '异常')
+        that.insresult[that.position].secondworkstatus = content.data.twicePowerSupply.replace('0', '正常').replace('1', '异常')
+        that.insresult[that.position].otherworkstatus = content.data.other1.replace('0', '正常').replace('1', '异常')
+        // console.log(that.insresult,content.data.friendOrFoe.replace("0","正常").replace("1","异常"),content.data.friendOrFoe,content[item])
+      })
+      this.stomp.subscribe('/uploadDeviceNetWorkParamMessage/send', function (result) {
+        that.arr = []
+        var content = JSON.parse(result.body)
         // console.log(content.data[0], content.data[1].networkIP1)
         for (var i in that.hostlist) {
           that.arr.push(that.hostlist[i].host)
         }
         that.position = that.arr.indexOf(content.data[0])
         that.deviceparamsinfo[that.position].cmd = content.data[1].networkID
-       // console.log( that.deviceparamsinfo[that.position].cmd,content.data[1].networkID)
+        // console.log( that.deviceparamsinfo[that.position].cmd,content.data[1].networkID)
         that.deviceparamsinfo[that.position].networkIP1 = content.data[1].networkIP1
         that.deviceparamsinfo[that.position].networkMacIP1 = content.data[1].networkMacIP1
         that.deviceparamsinfo[that.position].networkMessage1 = content.data[1].networkMessage1
@@ -1201,55 +1307,55 @@ export default {
         that.deviceparamsinfo[that.position].networkMacIP6 = content.data[1].networkMacIP6
         that.deviceparamsinfo[that.position].networkMessage6 = content.data[1].networkMessage6
       })
-      this.stomp.subscribe("/uploadRadarSubSystemWorkStatusMessage/send", function (result) {
+      this.stomp.subscribe('/uploadRadarSubSystemWorkStatusMessage/send', function (result) {
         that.arr = []
-        var content = JSON.parse(result.body);
-        let besidemanage= content.data.fenJiWorkStatus.split('').reverse().splice(0,10)
-        let reconnoitre=content.data.fenJiWorkStatus.split('').reverse().splice(10,10)
-      let sing=content.data.fenJiWorkStatus.split('').reverse().splice(24,4)//此字段第四位暂时不截取
-        let signal=content.data.fenJiWorkStatus.split('').reverse().splice(20,8)
-        let sysctrl=content.data.fenJiWorkStatus.split('').reverse().splice(28,8)
-        let save=content.data.fenJiWorkStatus.split('').reverse().splice(36,4)
-        let res=[]
-        let res2=[]
-        let res3=[]
-        let res4=[]
-        let res5=[]
-        for(let i=0;i<besidemanage.length;i++){
-         res.push(besidemanage[i])
+        var content = JSON.parse(result.body)
+        let besidemanage = content.data.fenJiWorkStatus.split('').reverse().splice(0, 10)
+        let reconnoitre = content.data.fenJiWorkStatus.split('').reverse().splice(10, 10)
+        let sing = content.data.fenJiWorkStatus.split('').reverse().splice(24, 4)// 此字段第四位暂时不截取
+        let signal = content.data.fenJiWorkStatus.split('').reverse().splice(20, 8)
+        let sysctrl = content.data.fenJiWorkStatus.split('').reverse().splice(28, 8)
+        let save = content.data.fenJiWorkStatus.split('').reverse().splice(36, 4)
+        let res = []
+        let res2 = []
+        let res3 = []
+        let res4 = []
+        let res5 = []
+        for (let i = 0; i < besidemanage.length; i++) {
+          res.push(besidemanage[i])
         }
-        that.numArr = res 
-        for(let i=0;i<reconnoitre.length;i++){
-         res2.push(reconnoitre[i])
+        that.numArr = res
+        for (let i = 0; i < reconnoitre.length; i++) {
+          res2.push(reconnoitre[i])
         }
-        that.numArr2=res2     
-        for(let i=0;i<signal.length;i++){
-         res3.push(signal[i])
+        that.numArr2 = res2
+        for (let i = 0; i < signal.length; i++) {
+          res3.push(signal[i])
         }
-        that.numArr3=res3    
+        that.numArr3 = res3
 
-        for(let i=0;i<sysctrl.length;i++){
-         res4.push(sysctrl[i])
+        for (let i = 0; i < sysctrl.length; i++) {
+          res4.push(sysctrl[i])
         }
-        that.numArr4=res4     
-        for(let i=0;i<save.length;i++){
-         res5.push(save[i])
+        that.numArr4 = res4
+        for (let i = 0; i < save.length; i++) {
+          res5.push(save[i])
         }
-        that.numArr5=res5     
-          for (var i in that.hostlist) {
-            that.arr.push(that.hostlist[i].host)
-          }
-          that.position = that.arr.indexOf(content.data.host)
-          that.radarSub[that.position].feedbacknum=content.data.feedbackNo
-          that.radarSub[that.position].sendnum=content.data.faNodeNo
-          that.radarSub[that.position].takenum=content.data.receiveNodeNo
-          that.radarSub[that.position].insreceivestatus=content.data.cmdReceiveStatus
-          that.radarSub[that.position].webworkheat=content.data.frontEndWorkTemperature
-          that.radarSub[that.position].cabliworkheat=content.data.fenjiWorkTemperature
-          that.radarSub[that.position].pulsenum=content.data.numCount
-          that.radarSub[that.position].radiant=content.data.dataPagCount
-          that.radarSub[that.position].IFdata=content.data.zhongDataPagCount
-          that.radarSub[that.position].devicenum=content.data.deviceNo
+        that.numArr5 = res5
+        for (var i in that.hostlist) {
+          that.arr.push(that.hostlist[i].host)
+        }
+        that.position = that.arr.indexOf(content.data.host)
+        that.radarSub[that.position].feedbacknum = content.data.feedbackNo
+        that.radarSub[that.position].sendnum = content.data.faNodeNo
+        that.radarSub[that.position].takenum = content.data.receiveNodeNo
+        that.radarSub[that.position].insreceivestatus = content.data.cmdReceiveStatus
+        that.radarSub[that.position].webworkheat = content.data.frontEndWorkTemperature
+        that.radarSub[that.position].cabliworkheat = content.data.fenjiWorkTemperature
+        that.radarSub[that.position].pulsenum = content.data.numCount
+        that.radarSub[that.position].radiant = content.data.dataPagCount
+        that.radarSub[that.position].IFdata = content.data.zhongDataPagCount
+        that.radarSub[that.position].devicenum = content.data.deviceNo
       })
       // this.stomp.subscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
       //   var content = JSON.parse(result.body);
@@ -1257,22 +1363,28 @@ export default {
       //   this.$emit('updatecolor', true);
       // })
     },
-    errorCallback () {//连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
-      alert("当前登录状态信息已过期，请重新登录");
-      this.stomp.unsubscribe("/uploadRadarSubSystemWorkStatusMessage/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/uploadDeviceNetWorkParamMessage/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/uploadSelfInspectionResult/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/uploadHeartBeatMessage/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
-      }, {});
+    errorCallback () { // 连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
+      alert('当前登录状态信息已过期，请重新登录')
+      this.stomp.unsubscribe('/uploadRadarSubSystemWorkStatusMessage/send', function (result) {
+      }, {})
+      this.stomp.unsubscribe('/uploadDeviceNetWorkParamMessage/send', function (result) {
+      }, {})
+      this.stomp.unsubscribe('/uploadSelfInspectionResult/send', function (result) {
+      }, {})
+      this.stomp.unsubscribe('/uploadHeartBeatMessage/send', function (result) {
+      }, {})
+      this.stomp.unsubscribe('/receiveHeartbeatCMD/sendToHeartBeat', function (result) {
+      }, {})
     }
   },
   mounted () {
-    // this.connect()
+    // let con = document.getElementsByClassName('smallBlock')
+    // con[0].style.backgroundImage = 'url(./../../../assets/a.jpg)'
+    // // console.log(con[0].style.backgroundImage)
+    // con[1].style.backgroundImage = con[6].style.backgroundImage = con[11].style.backgroundImage = 'url(../../assets/b.jpg)'
+    // con[2].style.backgroundImage = con[7].style.backgroundImage = con[12].style.backgroundImage = 'url(../../assets/c.jpg)'
+    // con[3].style.backgroundImage = con[8].style.backgroundImage = con[13].style.backgroundImage = 'url(../../assets/d.jpg)'
+    // con[4].style.backgroundImage = con[9].style.backgroundImage = con[14].style.backgroundImage = 'url(../../assets/e.jpg)'
   },
   components: {
     devicenetParamsinfo,
@@ -1286,7 +1398,7 @@ export default {
     ...mapGetters(['ip', 'hostlist'])
   }
 }
- </script>
+</script>
  <style scoped>
 .content {
   width: 100%;
@@ -1298,6 +1410,42 @@ export default {
   margin: 0 auto;
   margin-top: 3.5%;
   margin-left: 300px;
+}
+.smallBlock {
+  font-size: 14px;
+  color:#fff;
+  text-align: center;
+  vertical-align: middle;
+  writing-mode: vertical-lr;
+  /* background-image: url(../../assets/a.jpg); */
+  font-weight: 800;
+  width: 19%;
+  height: 300px;
+}
+.smallBlock1 {
+  background:url(../../assets/a.jpg);
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+}
+.smallBlock2 {
+  background:url(../../assets/b.jpg);
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+}
+.smallBlock3 {
+  background:url(../../assets/c.jpg);
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+}
+.smallBlock4 {
+  background:url(../../assets/d.jpg);
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+}
+.smallBlock5 {
+  background:url(../../assets/e.jpg);
+  background-size:100% 100%;
+  background-repeat: no-repeat;
 }
 Tabs {
   width: 100%;
@@ -1356,8 +1504,7 @@ Tabs {
   width: 140px;
   margin-left: 10px;
 }
-.radar .ivu-form-item{
- display: inline-block;
+.radar .ivu-form-item {
+  display: inline-block;
 }
 </style>
- 

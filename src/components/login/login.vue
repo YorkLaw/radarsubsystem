@@ -91,8 +91,6 @@
 }
 </style>
 <script>
-import Stomp from 'stompjs'
-import SockJS from 'sockjs-client'
 /*eslint-disable*/
 import { get, post, patch } from '@/api/axios.js'
 import * as oatu from '@/api/permission.js'

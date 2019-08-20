@@ -287,7 +287,7 @@ import { post } from '@/api/axios.js'
 import * as storage from '@/api/localstorage.js'
 import { mapGetters } from 'vuex'
 export default {
- props: {'updateAll':Boolean,'device':Number},
+  props: { 'updateAll': Boolean, 'device': Number },
   data () {
     return {
       modal1: false,
@@ -318,49 +318,49 @@ export default {
         ipsixth2: '168',
         ipsixth3: '31',
         ipsixth4: '88',
-        macone1:'E8',
-        macone2:'03',
-        macone3:'9A',
-        macone4:'35',
-        macone5:'2B',
-        macone6:'ED',
-        macsecond1:'E8',
-        macsecond2:'03',
-        macsecond3:'9A',
-        macsecond4:'35',
-        macsecond5:'2B',
-        macsecond6:'ED',
-        macthird1:'E8',
-        macthird2:'03',
-        macthird3:'9A',
-        macthird4:'35',
-        macthird5:'2B',
-        macthird6:'ED',
-        macforth1:'E8',
-        macforth2:'03',
-        macforth3:'9A',
-        macforth4:'35',
-        macforth5:'2B',
-        macforth6:'ED',
-        macfifth1:'E8',
-        macfifth2:'03',
-        macfifth3:'9A',
-        macfifth4:'35',
-        macfifth5:'2B',
-        macfifth6:'ED',
-        macsixth1:'E8',
-        macsixth2:'03',
-        macsixth3:'9A',
-        macsixth4:'35',
-        macsixth5:'2B',
-        macsixth6:'ED',
+        macone1: 'E8',
+        macone2: '03',
+        macone3: '9A',
+        macone4: '35',
+        macone5: '2B',
+        macone6: 'ED',
+        macsecond1: 'E8',
+        macsecond2: '03',
+        macsecond3: '9A',
+        macsecond4: '35',
+        macsecond5: '2B',
+        macsecond6: 'ED',
+        macthird1: 'E8',
+        macthird2: '03',
+        macthird3: '9A',
+        macthird4: '35',
+        macthird5: '2B',
+        macthird6: 'ED',
+        macforth1: 'E8',
+        macforth2: '03',
+        macforth3: '9A',
+        macforth4: '35',
+        macforth5: '2B',
+        macforth6: 'ED',
+        macfifth1: 'E8',
+        macfifth2: '03',
+        macfifth3: '9A',
+        macfifth4: '35',
+        macfifth5: '2B',
+        macfifth6: 'ED',
+        macsixth1: 'E8',
+        macsixth2: '03',
+        macsixth3: '9A',
+        macsixth4: '35',
+        macsixth5: '2B',
+        macsixth6: 'ED',
         networkMessage1: '8080',
         networkMessage2: '8080',
         networkMessage3: '8080',
         networkMessage4: '8080',
         networkMessage5: '8080',
         networkMessage6: '8080',
-        networkID:'1'
+        networkID: '1'
       },
       ruleValidate: {
         cmd: [
@@ -385,7 +385,7 @@ export default {
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
           let urlN = '/deployment/sendDeviceNetworkCMD/communication'
-            this.sendRequest(urlN)
+          this.sendRequest(urlN)
         } else {
           this.$Message.error('输入不完整')
         }
@@ -410,43 +410,44 @@ export default {
       var dataTime = this.getTimeNow().split(' ')
       let splitdata = dataTime[0].split('-').join('')
       let splittime = dataTime[1].split(':').join('')
-      for(let item in this.formValidate){
-        if(this.formValidate[item]==""){
-        this.$Message.error({
-            content: '设备参数'+item+"未填写",
+      for (let item in this.formValidate) {
+        if (this.formValidate[item] == "") {
+          this.$Message.error({
+            content: '设备参数' + item + "未填写",
             duration: 3
-        })
+          })
         }
       }
       let datelocal = {}
-      datelocal.cmd=this.formValidate.cmd
+      datelocal.cmd = this.formValidate.cmd
       datelocal.taskFlowNo = splitdata + splittime
-      datelocal.host = this.hostlist[this.device-1].host
-      datelocal.networkID=this.device
-      datelocal.networkIP1=this.formValidate.ipone1+this.formValidate.ipone2+this.formValidate.ipone3+this.formValidate.ipone4
-      datelocal.networkIP2=this.formValidate.ipsecond1+this.formValidate.ipsecond2+this.formValidate.ipsecond3+this.formValidate.ipsecond4
-      datelocal.networkIP3=this.formValidate.ipthird1+this.formValidate.ipthird2+this.formValidate.ipthird3+this.formValidate.ipthird4
-      datelocal.networkIP4=this.formValidate.ipforth1+this.formValidate.ipforth2+this.formValidate.ipforth3+this.formValidate.ipforth4
-      datelocal.networkIP5=this.formValidate.ipfifth1+this.formValidate.ipfifth2+this.formValidate.ipfifth3+this.formValidate.ipfifth4
-      datelocal.networkIP6=this.formValidate.ipsixth1+this.formValidate.ipsixth2+this.formValidate.ipsixth3+this.formValidate.ipsixth4
-      datelocal.networkMacIP1=this.formValidate.macone1+this.formValidate.macone2+this.formValidate.macone3+this.formValidate.macone4+this.formValidate.macone5+this.formValidate.macone6
-      datelocal.networkMacIP2=this.formValidate.macsecond1+this.formValidate.macsecond2+this.formValidate.macsecond3+this.formValidate.macsecond4+this.formValidate.macsecond5+this.formValidate.macsecond6
-      datelocal.networkMacIP3=this.formValidate.macthird1+this.formValidate.macthird2+this.formValidate.macthird3+this.formValidate.macthird4+this.formValidate.macthird5+this.formValidate.macthird6
-      datelocal.networkMacIP4=this.formValidate.macforth1+this.formValidate.macforth2+this.formValidate.macforth3+this.formValidate.macforth4+this.formValidate.macforth5+this.formValidate.macforth6
-      datelocal.networkMacIP5=this.formValidate.macfifth1+this.formValidate.macfifth2+this.formValidate.macfifth3+this.formValidate.macfifth4+this.formValidate.macfifth5+this.formValidate.macfifth6
-      datelocal.networkMacIP6=this.formValidate.macsixth1+this.formValidate.macsixth2+this.formValidate.macsixth3+this.formValidate.macsixth4+this.formValidate.macsixth5+this.formValidate.macsixth6
-      datelocal.networkMessage1=this.formValidate.networkMessage1
-      datelocal.networkMessage2=this.formValidate.networkMessage2
-      datelocal.networkMessage3=this.formValidate.networkMessage3
-      datelocal.networkMessage4=this.formValidate.networkMessage4
-      datelocal.networkMessage5=this.formValidate.networkMessage5
-      datelocal.networkMessage6=this.formValidate.networkMessage6
-      if(this.updateAll==false){
-        this.updateAll=0
-      }else if(this.updateAll==true){
-        this.updateAll=1
+      datelocal.host = this.hostlist[this.device - 1].host
+      datelocal.networkID = this.device
+      datelocal.networkIP1 = this.formValidate.ipone1 + this.formValidate.ipone2 + this.formValidate.ipone3 + this.formValidate.ipone4
+      datelocal.networkIP2 = this.formValidate.ipsecond1 + this.formValidate.ipsecond2 + this.formValidate.ipsecond3 + this.formValidate.ipsecond4
+      datelocal.networkIP3 = this.formValidate.ipthird1 + this.formValidate.ipthird2 + this.formValidate.ipthird3 + this.formValidate.ipthird4
+      datelocal.networkIP4 = this.formValidate.ipforth1 + this.formValidate.ipforth2 + this.formValidate.ipforth3 + this.formValidate.ipforth4
+      datelocal.networkIP5 = this.formValidate.ipfifth1 + this.formValidate.ipfifth2 + this.formValidate.ipfifth3 + this.formValidate.ipfifth4
+      datelocal.networkIP6 = this.formValidate.ipsixth1 + this.formValidate.ipsixth2 + this.formValidate.ipsixth3 + this.formValidate.ipsixth4
+      datelocal.networkMacIP1 = this.formValidate.macone1 + this.formValidate.macone2 + this.formValidate.macone3 + this.formValidate.macone4 + this.formValidate.macone5 + this.formValidate.macone6
+      datelocal.networkMacIP2 = this.formValidate.macsecond1 + this.formValidate.macsecond2 + this.formValidate.macsecond3 + this.formValidate.macsecond4 + this.formValidate.macsecond5 + this.formValidate.macsecond6
+      datelocal.networkMacIP3 = this.formValidate.macthird1 + this.formValidate.macthird2 + this.formValidate.macthird3 + this.formValidate.macthird4 + this.formValidate.macthird5 + this.formValidate.macthird6
+      datelocal.networkMacIP4 = this.formValidate.macforth1 + this.formValidate.macforth2 + this.formValidate.macforth3 + this.formValidate.macforth4 + this.formValidate.macforth5 + this.formValidate.macforth6
+      datelocal.networkMacIP5 = this.formValidate.macfifth1 + this.formValidate.macfifth2 + this.formValidate.macfifth3 + this.formValidate.macfifth4 + this.formValidate.macfifth5 + this.formValidate.macfifth6
+      datelocal.networkMacIP6 = this.formValidate.macsixth1 + this.formValidate.macsixth2 + this.formValidate.macsixth3 + this.formValidate.macsixth4 + this.formValidate.macsixth5 + this.formValidate.macsixth6
+      datelocal.networkMessage1 = this.formValidate.networkMessage1
+      datelocal.networkMessage2 = this.formValidate.networkMessage2
+      datelocal.networkMessage3 = this.formValidate.networkMessage3
+      datelocal.networkMessage4 = this.formValidate.networkMessage4
+      datelocal.networkMessage5 = this.formValidate.networkMessage5
+      datelocal.networkMessage6 = this.formValidate.networkMessage6
+      let updateAll1
+      if (this.updateAll === false) {
+        updateAll1 = 0
+      } else if (this.updateAll === true) {
+        updateAll1 = 1
       }
-      datelocal.updateAll=this.updateAll
+      datelocal.updateAll = updateAll1
       console.log(datelocal)
       post(url, datelocal).then((data) => {
         if (data.code === 1) {
@@ -454,7 +455,7 @@ export default {
             // 发送成功将表单数据存到本地
             storage.set(this.equipmentID, { 'date': datelocal })
             // 清空表单，避免下次打开有初始值
-      this.$refs['formValidate'].resetFields()
+            this.$refs['formValidate'].resetFields()
             this.$Message.success({
               content: '指令发送成功',
               duration: 1

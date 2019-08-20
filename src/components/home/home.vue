@@ -76,6 +76,7 @@ export default {
     return {
       websockData: '',
       changeColor: false,
+      changeColor1: false,
       websock: null,
       IDlist: [],
       content: '',
@@ -129,9 +130,17 @@ export default {
     changeColor () {
       var cir = document.getElementsByClassName("statuscir")
       if (this.changeColor === false) {
-        cir[this.position].style.backgroundColor = "rgb(218, 95, 99)"
+        cir[this.position].style.backgroundColor = "gray"
       } else {
-        cir[this.position].style.backgroundColor = "#19be6b"
+        cir[this.position].style.backgroundColor = "rgb(218, 95, 99)"
+      }
+    },
+    changeColor1 () {
+      var cir = document.getElementsByClassName("statuscir")
+      if (this.changeColor1 === false) {
+        cir[this.position].style.backgroundColor = "gray"
+      } else {
+        cir[this.position].style.backgroundColor = "rgb(25, 190, 107)"
       }
     }
   },
@@ -295,22 +304,9 @@ export default {
       _setuserRole: 'SET_ROLE',
       _sethostlist: 'SET_HOST'
     }),
-    getAll () {
-      alert("location:" + window.location);
-
-      alert("href: " + window.location.href);
-
-      alert("protocol: " + window.location.protocol);
-
-      alert("host&port: " + window.location.host);
-
-      alert("port: " + window.location.port);
-
-      alert("hostname: " + window.location.hostname);
-    },
     connect () {	//定义连接函数
       if (this.stomp == null || !this.stomp.connected) {
-        this.stomp = Stomp.over(new SockJS('http://192.168.31.171:8090' + '/stomp'))//打包时改成window.location.host
+        this.stomp = Stomp.over(new SockJS('http://192.168.31.159:8090' + '/stomp'))
         // this._setstomp(stomp)
         this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
         this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
@@ -322,17 +318,42 @@ export default {
     connectCallback (frame) {  //连接成功时的回调函数
       let that = this
       this.$refs.showstatus.connect(this.stomp)//父组件里订阅了一个话题，使用$refs可以使子组件里连接上并订阅四个话题
-      this.stomp.subscribe("/deviceConnect/send", function (result) {
+      this.stomp.subscribe("/deviceConnect/sendSuccess", function (result) {
+      let cir = document.getElementsByClassName("statuscir")
         var content = JSON.parse(result.body);
         console.log(content)
         if (content.device <= 3) {
+            that.changeColor1 = true
           that.$Message.success({
             content: content.message,
             duration: 3
           })
+          console.log(content.data)
+            console.log(that.arr.indexOf(content.data.host))
+            console.log(content.data.host)
           get('/deployment').then((data) => {
             that._sethostlist(data.data)
+            for (var i in that.hostlist) {
+              that.arr.push(that.hostlist[i].host)
+            }
+            that.position = that.arr.indexOf(content.data.host)
+            console.log(that.arr)
+            console.log(that.position)            
+            cir[that.position].style.backgroundColor = "rgb(25, 190, 107)"
           })
+        }
+      })
+      this.stomp.subscribe("/deviceUnConnect/send", function (result) {
+        var content = JSON.parse(result.body);
+      let cir = document.getElementsByClassName("statuscir")
+        console.log(content)
+        for (var i in that.hostlist) {
+          that.arr.push(that.hostlist[i].host)
+        }
+        that.position = that.arr.indexOf(content.data.host)
+        if (content) {
+          that.changeColor1 = false
+          cir[that.position].style.backgroundColor = "gray"
         }
       })
       this.stomp.subscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
@@ -349,9 +370,9 @@ export default {
           if (that.content == content) { that.changeColor = false }
         }
         console.log(that.changeColor)
-        setTimeout(fn, 1000)
-        var cir = document.getElementsByClassName("statuscir")
-        cir[that.position].style.backgroundColor = "#19be6b"
+        setTimeout(fn, 10000)
+      let cir = document.getElementsByClassName("statuscir")
+        cir[that.position].style.backgroundColor = "rgb(218, 95, 99)"
       })
     },
     errorCallback (e) {//连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
@@ -575,7 +596,7 @@ form {
   width: 25px;
   height: 25px;
   display: inline-block;
-  background-color: rgb(218, 95, 99);
+  background-color: gray;
 }
 .opera {
   margin-top: 80%;
@@ -642,7 +663,7 @@ Tabs {
   right: 0;
 }
 .ivu-input-number-handler-wrap {
-  width: 30px;
+  width: 35px;
 }
 .demo-spin-container {
   display: inline-block;
@@ -657,5 +678,13 @@ Tabs {
 }
 .ivu-spin {
   border-radius: 8px;
+}
+.ivu-modal .ivu-form-item-content{
+  margin:0;
+  display: inline-block;
+}
+.ivu-form-item .ivu-form-item-required{
+  display: inline-block;
+
 }
 </style>

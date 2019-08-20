@@ -5,8 +5,8 @@
           :rules="ruleValidate"
           :label-width="100">
       <FormItem label="自检类型"
-                prop="checkType ">
-        <Select v-model="formValidate.checkType "
+                prop="checkType">
+        <Select v-model="formValidate.checkType"
                 style="width:350px">
           <Option value="1">常规自检</Option>
           <Option value="2">上电自检</Option>
@@ -14,23 +14,23 @@
           <Option value="4">维护自检</Option>
         </Select>
       </FormItem>
-      <FormItem prop="checkPeriod "
+      <FormItem prop="checkPeriod"
                 label="自检周期">
-        <Input v-model="formValidate.checkPeriod "
+        <Input v-model="formValidate.checkPeriod"
                placeholder="自检周期/s"
                style="width:150px"></Input>
       </FormItem>
       <FormItem label="自检数量"
-                prop="checkNum ">
-        <InputNumber v-model="formValidate.checkNum "
+                prop="checkNum">
+        <InputNumber v-model="formValidate.checkNum"
                      :max="255"
                      :min="1"
                      style="width:100px">
         </InputNumber>
       </FormItem>
       <FormItem label="被检单位代码"
-                prop="SingleMachineCode ">
-        <Select v-model="formValidate.SingleMachineCode "
+                prop="SingleMachineCode">
+        <Select v-model="formValidate.SingleMachineCode"
                 style="width:350px">
           <Option value="1">雷达侦察子系统</Option>
           <Option value="2">敌我侦查子系统</Option>
@@ -40,7 +40,7 @@
       </FormItem>
       <FormItem>
         <Button type="primary"
-                @click="submitData">确定</Button>
+                @click="sendPatten">确定</Button>
         <Button style="margin-left: 8px"
                 @click="cancel">取消</Button>
       </FormItem>
@@ -51,34 +51,63 @@
            title="撤消更改">
       <p>确定要撤消刚才做出的更改吗?</p>
     </Modal>
+    <Modal v-model="sendpatten"
+           title="选择发送模式"
+           @on-ok="sendData">
+      <Button @click="sendCode='0'">即刻发送</Button>
+      <Button style="margin-left: 8px"
+              @click="timingSend">定时发送</Button>
+    </Modal>
+    <Modal v-model="sendtime"
+           title="选择定时发送时间">
+      <Date-picker type="date"
+                   :options="options3"
+                   placeholder="选择日期"
+                   v-model="pickDate"></Date-picker>
+      <Time-picker type="time"
+                   size="small"
+                   placeholder="选择时间"
+                   format="HH点mm分ss秒"
+                   v-model="pickTime"></Time-picker>
+    </Modal>
   </div>
 
 </template>
 <script>
-import { GMTToStr } from '@/api/transformDate'
 import { post } from '@/api/axios.js'
 import * as storage from '@/api/localstorage.js'
 import { mapGetters } from 'vuex'
 // import { sendequipselfinspec } from '@/api/equipmentSelfInspection'
 export default {
-  props: {'updateAll':Boolean,'device':Number},
+  props: { 'updateAll': Boolean, 'device': Number },
   data () {
     return {
+      options3: {
+        disabledDate (date) {
+          return date && date.valueOf() < Date.now() - 86400000
+        }
+      },
       modal1: false,
       equipmentID: '',
-      saveform: {},
+      sendCode: '0',
+      sendtime: false,
+      pickDate: '',
+      pickTime: '',
+      insObj: {}, // 列入任务清单
+      sendinstruction: '0',
+      sendpatten: false,
       formValidate: {
         checkType: '1',
         SingleMachineCode: '1',
         checkPeriod: '',
-        checkNum: 1,
+        checkNum: 1
       },
       ruleValidate: {
         checkType: [
           { required: true, type: 'string', message: '请选择自检类型', trigger: 'change' }
         ],
         checkNum: [
-          { required: true, type: 'string', message: '请选择自检数量', trigger: 'change' }
+          { required: true, type: 'number', message: '请选择自检数量', trigger: 'blur' }
         ],
         checkPeriod: [
           { required: true, type: 'string', message: '请输入自检周期', trigger: 'blur' }
@@ -100,15 +129,52 @@ export default {
       this.$refs['formValidate'].resetFields()
       this.modal1 = false
     },
-    submitData () {
+    sendPatten () {
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
-          let urlN = '/deployment/sendDeviceCheckCMD/communication'
-            this.sendRequest(urlN)
-            } else {
+          this.sendpatten = true
+        } else {
           this.$Message.error('输入不完整')
         }
       })
+    },
+    timingSend () { // 定时发送
+      this.sendCode = '1'
+      this.sendtime = true
+    },
+    GMTToStr (time) {
+      let date = new Date(time)
+      let Str = date.getFullYear() + '年' +
+        (date.getMonth() + 1) + '月' +
+        date.getDate() + '日'
+      return Str
+    },
+    chooseSendTime () {
+      this.$Message.success({
+        content: '本指令将于' + this.GMTToStr(this.pickDate) + this.pickTime + '发送',
+        duration: 3
+      })
+    },
+    sendData () {
+      if (this.sendCode === '0') {
+        this.submitData()
+      } else if (this.sendCode === '1') {
+        this.chooseSendTime()
+        this.insObj.name = '设备自检'
+        this.insObj.time = this.GMTToStr(this.pickDate) + this.pickTime
+        if (this.device - 1 === 0) {
+          this.$emit('func', this.insObj)
+        } else if (this.device - 1 === 1) {
+          this.$emit('functi', this.insObj)
+        } else if (this.device - 1 === 2) {
+          this.$emit('function', this.insObj)
+        }
+      }
+      this.sendpatten = false
+    },
+    submitData () {
+      let urlN = '/deployment/sendDeviceCheckCMD/communication'
+      this.sendRequest(urlN)
     },
     getTimeNow () {
       let myDate = new Date()
@@ -131,20 +197,21 @@ export default {
       let splittime = dataTime[1].split(':').join('')
       let datelocal = this.formValidate
       datelocal.taskFlowNo = splitdata + splittime
-      datelocal.host = this.hostlist[this.device-1].host
-      if(this.updateAll==false){
-        this.updateAll=0
-      }else if(this.updateAll==true){
-        this.updateAll=1
+      datelocal.host = this.hostlist[this.device - 1].host
+      let updateAll1
+      if (this.updateAll === false) {
+        updateAll1 = 0
+      } else if (this.updateAll === true) {
+        updateAll1 = 1
       }
-      datelocal.updateAll=this.updateAll
+      datelocal.updateAll = updateAll1
       post(url, datelocal).then((data) => {
         if (data.code === 1) {
           setTimeout(() => {
             // 发送成功将表单数据存到本地
             storage.set(this.equipmentID, { 'date': datelocal })
             // 清空表单，避免下次打开有初始值
-      this.$refs['formValidate'].resetFields()
+            this.$refs['formValidate'].resetFields()
             this.$Message.success({
               content: '指令发送成功',
               duration: 1

@@ -13,7 +13,7 @@
           <Option value="2">微波重启</Option>
           <Option value="3">数字重启</Option>
         </Select>
-      </FormItem>      
+      </FormItem>
       <FormItem>
         <Button type="primary"
                 @click="submitData">确定</Button>
@@ -32,15 +32,16 @@
 <script>
 import { post } from '@/api/axios.js'
 import { mapGetters } from 'vuex'
+import * as storage from '@/api/localstorage.js'
 export default {
-  props: {'updateAll':Boolean,'device':Number},
+  props: { 'updateAll': Boolean, 'device': Number },
   data () {
     return {
       modal1: false,
       saveform: {},
       formValidate: {
         heartbeat: 1,
-        executePattern: '0',
+        executePattern: '0'
       },
       ruleValidate: {
         executePattern: [
@@ -68,7 +69,7 @@ export default {
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
           let urlN = 'deployment/sendDeviceRestoration/communication'
-            this.sendRequest(urlN)
+          this.sendRequest(urlN)
         } else {
           this.$Message.error('输入不完整')
         }
@@ -81,19 +82,20 @@ export default {
       splitetime = splitetime.split(' ')
       let splitdata = splitetime[0].split('-').join('')
       let splittimes = splitetime[1].split(':').join('').replace('.', '')
-      if(this.updateAll==false){
-        this.updateAll=0
-      }else if(this.updateAll==true){
-        this.updateAll=1
+      let updateAll1
+      if (this.updateAll === false) {
+        updateAll1 = 0
+      } else if (this.updateAll === true) {
+        updateAll1 = 1
       }
-      let obj = { 'timeNow': splitdata + splittimes,'updateAll':this.updateAll, 'executePattern': this.formValidate.executePattern, 'host': this.hostlist[this.device-1].host }
+      let obj = { 'timeNow': splitdata + splittimes, 'updateAll': updateAll1, 'executePattern': this.formValidate.executePattern, 'host': this.hostlist[this.device - 1].host }
       post(url, obj).then((data) => {
-         if (data.code === 1) {
+        if (data.code === 1) {
           setTimeout(() => {
             // 发送成功将表单数据存到本地
             storage.set(this.equipmentID, { 'date': obj })
             // 清空表单，避免下次打开有初始值
-      this.$refs['formValidate'].resetFields()
+            this.$refs['formValidate'].resetFields()
             this.$Message.success({
               content: '指令发送成功',
               duration: 1

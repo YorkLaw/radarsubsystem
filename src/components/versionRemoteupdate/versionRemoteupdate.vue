@@ -39,7 +39,7 @@ import { post } from '@/api/axios.js'
 import * as storage from '@/api/localstorage.js'
 import { mapGetters } from 'vuex'
 export default {
-  props: {'updateAll':Boolean,'device':Number},
+  props: { 'updateAll': Boolean, 'device': Number },
   computed: {
     ...mapGetters(['ip', 'hostlist'])
   },
@@ -77,26 +77,27 @@ export default {
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
           let urlN = '/deployment/sendSoftwareUpdateCMD/communication'
-            this.sendRequest(urlN)
+          this.sendRequest(urlN)
         } else {
           this.$Message.error('输入不完整')
         }
       })
     },
     sendRequest (url) {
-      if(this.updateAll==false){
-        this.updateAll=0
-      }else if(this.updateAll==true){
-        this.updateAll=1
+      let updateAll1
+      if (this.updateAll === false) {
+        updateAll1 = 0
+      } else if (this.updateAll === true) {
+        updateAll1 = 1
       }
-      let obj = { timeNow: nowTime(),updateAll:this.updateAll, cmd: this.formValidate.cmd, softwareID: this.formValidate.softwareID, host: this.hostlist[this.device-1].host }
+      let obj = { timeNow: nowTime(), updateAll: updateAll1, cmd: this.formValidate.cmd, softwareID: this.formValidate.softwareID, host: this.hostlist[this.device - 1].host }
       post(url, obj).then((data) => {
         if (data.code === 1) {
           setTimeout(() => {
             // 发送成功将表单数据存到本地
             storage.set(this.equipmentID, { 'date': obj })
             // 清空表单，避免下次打开有初始值
-      this.$refs['formValidate'].resetFields()
+            this.$refs['formValidate'].resetFields()
             this.$Message.success({
               content: '指令发送成功',
               duration: 1

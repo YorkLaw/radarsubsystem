@@ -49,7 +49,7 @@ import { post } from '@/api/axios.js'
 import * as storage from '@/api/localstorage.js'
 import { mapGetters } from 'vuex'
 export default {
-  props: {'updateAll':Boolean,'device':Number},
+  props: { 'updateAll': Boolean, 'device': Number },
   data () {
     return {
       modal1: false,
@@ -131,8 +131,8 @@ export default {
       this.$refs['formValidate'].validate((valid) => {
         if (valid) {
           let urlN = '/deployment/sendSystemTiming/communication'
-            this.sendRequest(urlN)
-            }
+          this.sendRequest(urlN)
+        }
         else {
           this.$Message.error('输入不完整')
           return this.changeLoading()
@@ -141,28 +141,29 @@ export default {
     },
     sendRequest (url) {
       // 转换时间格式
-     var dataTime = this.getTimeNow().split(' ')
+      var dataTime = this.getTimeNow().split(' ')
       let splitdata = dataTime[0].split('-').join('')
       let splittime = dataTime[1].split(':').join('')
-      if(this.updateAll==false){
-        this.updateAll=0
-      }else if(this.updateAll==true){
-        this.updateAll=1
+      let updateAll1
+      if (this.updateAll === false) {
+        updateAll1 = 0
+      } else if (this.updateAll === true) {
+        updateAll1 = 1
       }
-      let obj ={}
+      let obj = {}
       obj.timeNow = splitdata + splittime
-      obj.time=splitdata + splittime
-      obj.host = this.hostlist[this.device-1].host
-      obj.updateAll=this.updateAll
-      obj.timingPattern=this.formValidate.timingPattern
-      console.log(this.hostlist,this.device)
+      obj.time = splitdata + splittime
+      obj.host = this.hostlist[this.device - 1].host
+      obj.updateAll = updateAll1
+      obj.timingPattern = this.formValidate.timingPattern
+      console.log(this.hostlist, this.device)
       post(url, obj).then((data) => {
         if (data.code === 1) {
           setTimeout(() => {
             // 发送成功将表单数据存到本地
             storage.set(this.equipmentID, { 'date': obj })
             // 清空表单，避免下次打开有初始值
-      this.$refs['formValidate'].resetFields()
+            this.$refs['formValidate'].resetFields()
             this.$Message.success({
               content: '指令发送成功',
               duration: 1

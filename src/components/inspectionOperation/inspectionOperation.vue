@@ -1,12 +1,19 @@
 <template>
   <div>
-    <Card class="tabs" v-show="card">
+    <Card class="tabs"
+          v-show="card">
       <Card v-show="timeshow">
         <Icon type="ios-desktop-outline"
-              class="icon" />当前设备: {{this.hostlist[0].host}}&#x3000;&#x3000;更新所有: <i-switch v-model="updateAll" size="small" style="margin-top:-3px;width:40px">
-            <span slot="open">是</span><span slot="close">否</span>
+              class="icon" />当前设备: {{this.hostlist[0].host}}&#x3000;&#x3000;同时发送: <i-switch v-model="updateAll"
+                  size="small"
+                  style="margin-top:-3px;width:40px">
+          <span slot="open">是</span><span slot="close">否</span>
         </i-switch>
-        <Tabs type="card" style="margin-top:10px">
+        <Button style="margin-left:10px;"
+                size="small"
+                @click="dialogVisible = true">查看任务清单</Button>
+        <Tabs type="card"
+              style="margin-top:10px">
           <TabPane label="系统校时">
             <systemCalibration ref="sysTime"
                                :updateAll="updateAll"
@@ -15,7 +22,8 @@
           <TabPane label="设备自检">
             <equipmentSelfInspection ref="selfInspection"
                                      :updateAll="updateAll"
-                                     :device="tempdevice"></equipmentSelfInspection>
+                                     :device="tempdevice"
+                                     @func="changeArr"></equipmentSelfInspection>
           </TabPane>
           <TabPane label="设备工作流程控制">
             <equipment-workflow ref="workflow"
@@ -41,11 +49,17 @@
       </Card>
       <Card v-show="timeshow2">
         <Icon type="ios-desktop-outline"
-              class="icon" />当前设备: {{this.hostlist[1].host}}&#x3000;&#x3000;更新所有: <i-switch v-model="updateAll" size="small" style="margin-top:-3px;width:40px">
-            <span slot="open">是</span>
-            <span slot="close">否</span>
+              class="icon" />当前设备: {{this.hostlist[1].host}}&#x3000;&#x3000;同时发送: <i-switch v-model="updateAll"
+                  size="small"
+                  style="margin-top:-3px;width:40px">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
         </i-switch>
-        <Tabs type="card" style="margin-top:10px">
+        <Button style="margin-left:10px;"
+                size="small"
+                @click="dialogVisible1 = true">查看任务清单</Button>
+        <Tabs type="card"
+              style="margin-top:10px">
           <TabPane label="系统校时">
             <system-calibration ref="sysTime"
                                 :updateAll="updateAll"
@@ -54,7 +68,8 @@
           <TabPane label="设备自检">
             <equipmentSelfInspection ref="selfInspection"
                                      :updateAll="updateAll"
-                                     :device="tempdevice"></equipmentSelfInspection>
+                                     :device="tempdevice"
+                                     @functi="changeArr1"></equipmentSelfInspection>
           </TabPane>
           <TabPane label="设备工作流程控制">
             <equipment-workflow ref="workflow"
@@ -80,11 +95,17 @@
       </Card>
       <Card v-show="timeshow3">
         <Icon type="ios-desktop-outline"
-              class="icon" />当前设备: {{this.hostlist[2].host}}&#x3000;&#x3000;更新所有: <i-switch v-model="updateAll" size="small" style="margin-top:-3px;width:40px">
-            <span slot="open">是</span>
-            <span slot="close">否</span>
+              class="icon" />当前设备: {{this.hostlist[2].host}}&#x3000;&#x3000;同时发送: <i-switch v-model="updateAll"
+                  size="small"
+                  style="margin-top:-3px;width:40px">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
         </i-switch>
-        <Tabs type="card" style="margin-top:10px">
+        <Button style="margin-left:10px;"
+                size="small"
+                @click="dialogVisible2 = true">查看任务清单</Button>
+        <Tabs type="card"
+              style="margin-top:10px">
           <TabPane label="系统校时">
             <system-calibration ref="sysTime"
                                 :updateAll="updateAll"
@@ -93,7 +114,8 @@
           <TabPane label="设备自检">
             <equipmentSelfInspection ref="selfInspection"
                                      :updateAll="updateAll"
-                                     :device="tempdevice"></equipmentSelfInspection>
+                                     :device="tempdevice"
+                                     @function="changeArr2"></equipmentSelfInspection>
           </TabPane>
           <TabPane label="设备工作流程控制">
             <equipment-workflow ref="workflow"
@@ -118,6 +140,30 @@
         </Tabs>
       </Card>
     </Card>
+    <Modal title="任务清单"
+           v-model="dialogVisible">
+      <i-table border
+               :columns="columns1"
+               :data="data1"></i-table>
+      <!-- <i-table border
+               :content="self"
+               :columns="columns7"
+               :data="data6"></i-table> -->
+    </Modal>
+    <Modal title="任务清单"
+           v-model="dialogVisible1">
+      <i-table border
+               :columns="columns2"
+               :data="data2"></i-table>
+    </Modal>
+    <Modal title="任务清单"
+           v-model="dialogVisible2">
+      <i-table border
+               :columns="columns3"
+               :data="data3"></i-table>
+    </Modal>
+    </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -133,12 +179,112 @@ export default {
   props: ['zjdevice'],
   data () {
     return {
+      self: this,
       timeshow: true,
       timeshow2: false,
       timeshow3: false,
       tempdevice: 1,
       updateAll: false,
-      card:true
+      card: true,
+      dialogVisible: false,
+      dialogVisible1: false,
+      dialogVisible2: false,
+      columns1: [
+        {
+          title: '指令名称',
+          key: 'name'
+        },
+        {
+          title: '发送时间',
+          key: 'time'
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 150,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.remove1(params.index)
+                  }
+                }
+              }, '删除')
+            ])
+          }
+        }
+      ],
+      data1: [],
+      columns2: [
+        {
+          title: '指令名称',
+          key: 'name'
+        },
+        {
+          title: '发送时间',
+          key: 'time'
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 150,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.remove2(params.index)
+                  }
+                }
+              }, '删除')
+            ])
+          }
+        }
+      ],
+      data2: [],
+      columns3: [
+        {
+          title: '指令名称',
+          key: 'name'
+        },
+        {
+          title: '发送时间',
+          key: 'time'
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 150,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.remove3(params.index)
+                  }
+                }
+              }, '删除')
+            ])
+          }
+        }
+      ],
+      data3: []
     }
   },
   mounted () {
@@ -148,15 +294,15 @@ export default {
       }).catch(() => {
         throw new Error('IP获取失败')
       })
-     }
+    }
   },
   methods: {
     ...mapMutations({ _sethostlist: 'SET_HOST' }),
     showOrnot () {
       if (this.tempdevice === 1) {
-        this.timeshow = true;
-        this.timeshow2 = false;
-        this.timeshow3 = false;
+        this.timeshow = true
+        this.timeshow2 = false
+        this.timeshow3 = false
       } else if (this.tempdevice === 2) {
         this.timeshow = false
         this.timeshow2 = true
@@ -166,6 +312,30 @@ export default {
         this.timeshow2 = false
         this.timeshow3 = true
       }
+    },
+    changeArr (data) {
+      // console.log(data)
+      this.data1.push(JSON.parse(JSON.stringify(data)))// 去除引用关系
+      // console.log(this.data1)
+    },
+    changeArr1 (data) {
+      // console.log(data)
+      this.data2.push(JSON.parse(JSON.stringify(data)))// 去除引用关系
+      // console.log(this.data2)
+    },
+    changeArr2 (data) {
+      // console.log(data)
+      this.data3.push(JSON.parse(JSON.stringify(data)))// 去除引用关系
+      // console.log(this.data1)
+    },
+    remove1 (index) {
+      this.data1.splice(index, 1)
+    },
+    remove2 (index) {
+      this.data2.splice(index, 1)
+    },
+    remove3 (index) {
+      this.data3.splice(index, 1)
     }
   },
   components: {
@@ -174,10 +344,10 @@ export default {
     equipmentWorkflow,
     networkParameterupdating,
     versionRemoteupdate,
-    deviceReset,
+    deviceReset
   },
   computed: {
-    ...mapGetters(['ip', 'hostlist']),
+    ...mapGetters(['ip', 'hostlist'])
 
   }
 }
@@ -238,8 +408,14 @@ Tabs {
   vertical-align: middle;
 }
 .ivu-switch-checked .ivu-switch-inner {
-  left:0
+  left: 0;
+}
+/* inputnumber输入框里的控制上下的按钮 */
+.ivu-input-number-handler {
+  width: 134%;
+}
+.ivu-modal .ivu-form-item-content {
+  margin: 0;
+  display: inline-block;
 }
 </style>
-
-    
