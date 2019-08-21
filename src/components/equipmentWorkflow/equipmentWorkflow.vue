@@ -9,10 +9,12 @@
         <FormItem label="雷达分机指令发送次数"
                   style="margin-right:15px">
           <Card>
-            <div v-for="item in radarExtensionNum">
+            <div v-for="(item,index) in arr">
               <div style="border:1px solid rgb(232,234,236);border-radius:4px;display:inline-block;margin-right:15px;width:35%;text-align:center"> 雷达分机指令
               </div><Button type="primary"
                       @click="modify">修改</Button>
+              <Button type="error"
+                      @click="deleteExtensionNum(index)">删除</Button>
             </div>
           </Card>
           <Button type="success"
@@ -22,10 +24,12 @@
         </FormItem>
         <FormItem label="雷达系统指令发送次数">
           <Card>
-            <div v-for="item in radarSystemNum">
+            <div v-for="(item,index) in arr1">
               <div style="border:1px solid rgb(232,234,236);border-radius:4px;display:inline-block;margin-right:15px;width:35%;text-align:center"> 雷达系统指令 </div>
               <Button type="primary"
                       @click="modify1">修改</Button>
+              <Button type="error"
+                      @click="deleteSystemNum(index)">删除</Button>
             </div>
           </Card>
           <Button type="success"
@@ -1628,7 +1632,87 @@ export default {
         shieldingMinimumFrequency: 0,
         defalutUpdate: '0'
       },
+      dialogExtension1: {
+        pulse: '0',
+        watchdogOpen: '0', // 下面为分机控制字字段
+        state: '0',
+        open: '0',
+        transformModal: '0',
+        dealmodal: '0',
+        calibrationModal: '0',
+        selectcalibration: '0', // 分机控制字段结束
+        threshold: 1,
+        overallpulse: 100,
+        minamplitude: 0,
+        maxamplitude: 255,
+        minPulsewidth: 1,
+        maxPulsewidth: 30000,
+        filterMaximumFrequency: 955,
+        filterMinimumFrequency: 545,
+        shieldingMaximumFrequency: 0,
+        shieldingMinimumFrequency: 0,
+        defalutUpdate: '0'
+      },
       dialogSystem: {
+        workPattern: '0', // 系统控制指令开始
+        workPeriod: '1',
+        workPeriodNum: 1,
+        initialFrequency: 1,
+        terminationFrequency: 1,
+        steppedFrequency: 1,
+        bandWidthSelection: '0',
+        antennaSelection1: '0',
+        antennaSelection2: '0',
+        db05: '0', // 中频1衰减控制
+        db1: '0',
+        db2: '0',
+        db4: '0',
+        db8: '0',
+        db16: '0', // 结束
+        db205: '0', // 中频2衰减控制
+        db21: '0',
+        db22: '0',
+        db24: '0',
+        db28: '0',
+        db216: '0', // 结束
+        db305: '0', // 中频1衰减
+        db31: '0',
+        db32: '0',
+        db34: '0',
+        db38: '0',
+        db316: '0', // 结束
+        db405: '0', // 中频2衰减
+        db41: '0',
+        db42: '0',
+        db44: '0',
+        db48: '0',
+        db416: '0', // 结束
+        attenuation1618: '0', // 射频1衰减字段开始
+        attenuationEarlyStage126: '0',
+        attenuationLateStage126: '0',
+        attenuationEarlyStage1082: '0',
+        attenuationLateStage1082: '0',
+        attenuationEarlyStage103808: '0',
+        attenuationLateStage103808: '0', // 结束
+        // attenuationControl1: '0',
+        attenuation2618: '0', // 射频2衰减字段开始
+        attenuationEarlyStage226: '0',
+        attenuationLateStage226: '0',
+        attenuationEarlyStage2082: '0',
+        attenuationLateStage2082: '0',
+        attenuationEarlyStage203808: '0',
+        attenuationLateStage203808: '0', // 结束
+        // attenuationControl2: '0',
+        midCut1: '0',
+        midCut2: '0',
+        attenuationCodeControlMode: '0',
+        selfCheckingSourceAttenuation: '1',
+        batchNumberSwitch: '0',
+        batchNumber: '1',
+        faultDetectionThreshold: '1',
+        timeRequired: '1'
+      },
+      dialogSystem1: {
         workPattern: '0', // 系统控制指令开始
         workPeriod: '1',
         workPeriodNum: 1,
@@ -2278,6 +2362,7 @@ export default {
     addExtension () { // 添加的时候
       if (this.radarSystemNum === 0) {
         this.radarExtensionNum += 1
+        this.dialogExtension = JSON.parse(JSON.stringify(this.dialogExtension1))
         this.res = this.dialogExtension
         this.res.extensionControlCharacter = this.mapformExtension()
         this.res.count = this.formValidate.count
@@ -2291,6 +2376,7 @@ export default {
         this.res.updateAll = updateAll1
         this.res.host = this.hostlist[this.device - 1].host
         this.arr.push(this.res)
+        console.log(this.arr)
       } else if (this.radarSystemNum > 0) {
         this.radarSystemNum = 0
         this.$Message.error({
@@ -2298,11 +2384,13 @@ export default {
           duration: 1
         })
         this.arr = []
+        this.arr1 = []
       }
     },
     addSystem () { // 添加的时候
       if (this.radarExtensionNum === 0) {
         this.radarSystemNum += 1
+        this.dialogSystem = JSON.parse(JSON.stringify(this.dialogSystem1))
         this.res1 = this.dialogSystem
         this.res1.radioFrequencyAttenuation1 = this.attenuationSystemMap1()
         this.res1.radioFrequencyAttenuation2 = this.attenuationSystemMap2()
@@ -2321,14 +2409,24 @@ export default {
         this.res1.updateAll = updateAll1
         this.res1.host = this.hostlist[this.device - 1].host
         this.arr1.push(this.res1)
+        console.log(this.arr1)
       } else if (this.radarExtensionNum > 0) {
         this.radarExtensionNum = 0
         this.$Message.error({
           content: '分机指令与系统指令不可同时发送',
           duration: 1
         })
+        this.arr = []
         this.arr1 = []
       }
+    },
+    deleteExtensionNum (index) {
+      this.arr.splice(index, 1)
+      console.log(this.arr)
+    },
+    deleteSystemNum (index) {
+      this.arr1.splice(index, 1)
+      console.log(this.arr1)
     },
     saveDialogExtension () { // 修改的时候
       this.arr.pop()
@@ -2345,6 +2443,8 @@ export default {
       this.res.updateAll = updateAll1
       this.res.host = this.hostlist[this.device - 1].host
       this.arr.push(this.res)
+      this.dialogExtension = this.dialogExtension1
+      console.log(this.arr)
     },
     saveDialogSystem () { // 修改的时候
       this.arr1.pop()
@@ -2366,6 +2466,8 @@ export default {
       this.res1.updateAll = updateAll1
       this.res1.host = this.hostlist[this.device - 1].host
       this.arr1.push(this.res1)
+      this.dialogSystem = this.dialogSystem1
+      console.log(this.arr1)
     },
     sendExtension () {
       if (this.radarExtensionNum > 0) {

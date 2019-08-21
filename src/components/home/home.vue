@@ -130,14 +130,14 @@ export default {
     changeColor () {
       var cir = document.getElementsByClassName("statuscir")
       if (this.changeColor === false) {
-        cir[this.position].style.backgroundColor = "gray"
+        cir[this.position].style.backgroundColor = "rgb(25, 190, 107)"
       } else {
         cir[this.position].style.backgroundColor = "rgb(218, 95, 99)"
       }
     },
     changeColor1 () {
       var cir = document.getElementsByClassName("statuscir")
-      if (this.changeColor1 === false) {
+      if (this.changeColor1 === true) {
         cir[this.position].style.backgroundColor = "gray"
       } else {
         cir[this.position].style.backgroundColor = "rgb(25, 190, 107)"
@@ -318,41 +318,34 @@ export default {
     connectCallback (frame) {  //连接成功时的回调函数
       let that = this
       this.$refs.showstatus.connect(this.stomp)//父组件里订阅了一个话题，使用$refs可以使子组件里连接上并订阅四个话题
-      this.stomp.subscribe("/deviceConnect/sendSuccess", function (result) {
-      let cir = document.getElementsByClassName("statuscir")
+      this.stomp.subscribe("/deviceConnectSuccess/send", function (result) {
+        let cir = document.getElementsByClassName("statuscir")
         var content = JSON.parse(result.body);
-        console.log(content)
         if (content.device <= 3) {
-            that.changeColor1 = true
+          that.changeColor = true
           that.$Message.success({
             content: content.message,
             duration: 3
           })
-          console.log(content.data)
-            console.log(that.arr.indexOf(content.data.host))
-            console.log(content.data.host)
           get('/deployment').then((data) => {
             that._sethostlist(data.data)
             for (var i in that.hostlist) {
               that.arr.push(that.hostlist[i].host)
             }
             that.position = that.arr.indexOf(content.data.host)
-            console.log(that.arr)
-            console.log(that.position)            
             cir[that.position].style.backgroundColor = "rgb(25, 190, 107)"
           })
         }
       })
       this.stomp.subscribe("/deviceUnConnect/send", function (result) {
         var content = JSON.parse(result.body);
-      let cir = document.getElementsByClassName("statuscir")
-        console.log(content)
+        let cir = document.getElementsByClassName("statuscir")
         for (var i in that.hostlist) {
           that.arr.push(that.hostlist[i].host)
         }
         that.position = that.arr.indexOf(content.data.host)
         if (content) {
-          that.changeColor1 = false
+          that.changeColor1 = true
           cir[that.position].style.backgroundColor = "gray"
         }
       })
@@ -371,7 +364,7 @@ export default {
         }
         console.log(that.changeColor)
         setTimeout(fn, 10000)
-      let cir = document.getElementsByClassName("statuscir")
+        let cir = document.getElementsByClassName("statuscir")
         cir[that.position].style.backgroundColor = "rgb(218, 95, 99)"
       })
     },
@@ -390,8 +383,6 @@ export default {
       }, {});
       this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
       }, {});
-      console.log(e)
-      console.log(CloseEvent)
     }
   },
   computed: {
@@ -679,12 +670,11 @@ Tabs {
 .ivu-spin {
   border-radius: 8px;
 }
-.ivu-modal .ivu-form-item-content{
-  margin:0;
+.ivu-modal .ivu-form-item-content {
+  margin: 0;
   display: inline-block;
 }
-.ivu-form-item .ivu-form-item-required{
+.ivu-form-item .ivu-form-item-required {
   display: inline-block;
-
 }
 </style>
