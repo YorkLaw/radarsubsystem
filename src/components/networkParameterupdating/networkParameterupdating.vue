@@ -499,7 +499,7 @@ export default {
       datelocal.networkIP4 = this.formValidate.ipforth1 + '.' + this.formValidate.ipforth2 + '.' + this.formValidate.ipforth3 + '.' + this.formValidate.ipforth4
       datelocal.networkIP5 = this.formValidate.ipfifth1 + '.' + this.formValidate.ipfifth2 + '.' + this.formValidate.ipfifth3 + '.' + this.formValidate.ipfifth4
       datelocal.networkIP6 = this.formValidate.ipsixth1 + '.' + this.formValidate.ipsixth2 + '.' + this.formValidate.ipsixth3 + '.' + this.formValidate.ipsixth4
-      datelocal.networkMacIP1 = this.formValidate.macone1 + '.' + this.formValidate.macone2 + '.' + this.formValidate.macone3 + '.' + this.formValidate.macone4 + this.formValidate.macone5 + this.formValidate.macone6
+      datelocal.networkMacIP1 = this.formValidate.macone1 + this.formValidate.macone2 + this.formValidate.macone3 + this.formValidate.macone4 + this.formValidate.macone5 + this.formValidate.macone6
       datelocal.networkMacIP2 = this.formValidate.macsecond1 + this.formValidate.macsecond2 + this.formValidate.macsecond3 + this.formValidate.macsecond4 + this.formValidate.macsecond5 + this.formValidate.macsecond6
       datelocal.networkMacIP3 = this.formValidate.macthird1 + this.formValidate.macthird2 + this.formValidate.macthird3 + this.formValidate.macthird4 + this.formValidate.macthird5 + this.formValidate.macthird6
       datelocal.networkMacIP4 = this.formValidate.macforth1 + this.formValidate.macforth2 + this.formValidate.macforth3 + this.formValidate.macforth4 + this.formValidate.macforth5 + this.formValidate.macforth6
