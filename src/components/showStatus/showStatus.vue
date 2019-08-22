@@ -1223,23 +1223,9 @@ export default {
       this.item25 = !this.item25
       this.item22 = this.item23 = this.item24 = this.item21 = false
     },
-    connect (stomp) {	// 定义连接函数
-      // if (this.stomp == null || !this.stomp.connected) {
-      //   //var url = 'http://132.122.237.68:8164/websocket';
-
-      //   //this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
-      //   //this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
-      //   this.stomp.connect({}, this.connectCallback, this.errorCallback);
-      // } else {
-      //   console.log("当前处于连接状态");
-      // }
+    connect (stomp) {
       if (stomp !== null || !stomp.connected) {
-        // var url = 'http://132.122.237.68:8164/websocket';
-
-        // this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
-        // this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
         this.stomp = stomp
-        // this.stomp.connect({}, this.connectCallback, this.errorCallback);
         this.connectCallback()
       } else {
         console.log('当前处于连接状态')

@@ -10,7 +10,7 @@
                   style="margin-right:15px">
           <Card>
             <div v-for="(item,index) in arr">
-              <div style="border:1px solid rgb(232,234,236);border-radius:4px;display:inline-block;margin-right:15px;width:35%;text-align:center"> 雷达分机指令
+              <div style="border:1px solid rgb(232,234,236);border-radius:4px;display:inline-block;margin-right:15px;width:35%;text-align:center"> 雷达分机指令{{index+1}}
               </div><Button type="primary"
                       @click="modify">修改</Button>
               <Button type="error"
@@ -25,7 +25,7 @@
         <FormItem label="雷达系统指令发送次数">
           <Card>
             <div v-for="(item,index) in arr1">
-              <div style="border:1px solid rgb(232,234,236);border-radius:4px;display:inline-block;margin-right:15px;width:35%;text-align:center"> 雷达系统指令 </div>
+              <div style="border:1px solid rgb(232,234,236);border-radius:4px;display:inline-block;margin-right:15px;width:35%;text-align:center"> 雷达系统指令{{index+1}} </div>
               <Button type="primary"
                       @click="modify1">修改</Button>
               <Button type="error"
@@ -1577,6 +1577,15 @@ import * as storage from '@/api/localstorage.js'
 import { mapGetters } from 'vuex'
 export default {
   props: { 'updateAll': Boolean, 'device': Number },
+  watch: {
+    connectCode () {
+      if (this.connectCode === '0') {
+
+      } else {
+
+      }
+    }
+  },
   data () {
     const validateMobile = (rule, value, callback) => {
       if (parseInt(value) < 0) {
@@ -1591,6 +1600,10 @@ export default {
           return date && date.valueOf() < Date.now() - 86400000
         }
       },
+      stomp: null,
+      connectCode: '0',
+      // numArr: [],
+      // numArrNum: 0,
       modal1: false,
       sendCode: '0',
       sendtime: false,
@@ -2165,6 +2178,9 @@ export default {
       }
     }
   },
+  mounted () {
+    console.log(this.code)
+  },
   methods: {
     _getdate (date) {
       if (date.length !== 0) { this.localDate = date }
@@ -2361,6 +2377,8 @@ export default {
     },
     addExtension () { // 添加的时候
       if (this.radarSystemNum === 0) {
+        // this.numArrNum += 1
+        // this.numArr.push(this.numArrNum)
         this.radarExtensionNum += 1
         this.dialogExtension = JSON.parse(JSON.stringify(this.dialogExtension1))
         this.res = this.dialogExtension
@@ -2376,7 +2394,7 @@ export default {
         this.res.updateAll = updateAll1
         this.res.host = this.hostlist[this.device - 1].host
         this.arr.push(this.res)
-        console.log(this.arr)
+        // console.log(this.arr)
       } else if (this.radarSystemNum > 0) {
         this.radarSystemNum = 0
         this.$Message.error({
@@ -2385,9 +2403,13 @@ export default {
         })
         this.arr = []
         this.arr1 = []
+        // this.numArr = []
+        // this.numArrNum = 0
       }
     },
     addSystem () { // 添加的时候
+      // this.numArrNum += 1
+      // this.numArr.push(this.numArrNum)
       if (this.radarExtensionNum === 0) {
         this.radarSystemNum += 1
         this.dialogSystem = JSON.parse(JSON.stringify(this.dialogSystem1))
@@ -2409,7 +2431,7 @@ export default {
         this.res1.updateAll = updateAll1
         this.res1.host = this.hostlist[this.device - 1].host
         this.arr1.push(this.res1)
-        console.log(this.arr1)
+        // console.log(this.arr1)
       } else if (this.radarExtensionNum > 0) {
         this.radarExtensionNum = 0
         this.$Message.error({
@@ -2418,15 +2440,19 @@ export default {
         })
         this.arr = []
         this.arr1 = []
+        // this.numArr = []
+        // this.numArrNum = 0
       }
     },
     deleteExtensionNum (index) {
       this.arr.splice(index, 1)
-      console.log(this.arr)
+      // this.numArr.splice(index, 1)
+      this.radarExtensionNum -= 1
     },
     deleteSystemNum (index) {
       this.arr1.splice(index, 1)
-      console.log(this.arr1)
+      // this.numArr.splice(index, 1)
+      this.radarSystemNum -= 1
     },
     saveDialogExtension () { // 修改的时候
       this.arr.pop()
@@ -2444,7 +2470,6 @@ export default {
       this.res.host = this.hostlist[this.device - 1].host
       this.arr.push(this.res)
       this.dialogExtension = this.dialogExtension1
-      console.log(this.arr)
     },
     saveDialogSystem () { // 修改的时候
       this.arr1.pop()
@@ -2467,7 +2492,7 @@ export default {
       this.res1.host = this.hostlist[this.device - 1].host
       this.arr1.push(this.res1)
       this.dialogSystem = this.dialogSystem1
-      console.log(this.arr1)
+      // console.log(this.arr1)
     },
     sendExtension () {
       if (this.radarExtensionNum > 0) {
@@ -2495,7 +2520,6 @@ export default {
       post(url, this.res).then((data) => {
         if (data.code === 1) {
           setTimeout(() => {
-            this.$Message.success('指令发送完成')
             this.$refs['formValidate'].resetFields()
           }, 1000)
         } else {
@@ -2527,7 +2551,6 @@ export default {
           post(url, this.res1).then((data) => {
             if (data.code === 1) {
               setTimeout(() => {
-                this.$Message.success('指令发送完成')
                 this.$refs['formValidate'].resetFields()
               }, 1000)
             } else {
@@ -2548,13 +2571,17 @@ export default {
       })
     },
     sendPatten () {
-      this.$refs['formValidate'].validate((valid) => {
-        if (valid) {
-          this.sendpatten = true
-        } else {
-          this.$Message.error('输入不完整')
-        }
-      })
+      if (this.code === '1') {
+        this.$refs['formValidate'].validate((valid) => {
+          if (valid) {
+            this.sendpatten = true
+          } else {
+            this.$Message.error('输入不完整')
+          }
+        })
+      } else {
+        this.$Message.error('此设备未连接')
+      }
     },
     timingSend () { // 定时发送
       this.sendCode = '1'
@@ -2781,10 +2808,50 @@ export default {
           duration: 1
         })
       })
+    },
+    connect (stomp) {
+      if (stomp !== null || !stomp.connected) {
+        this.stomp = stomp
+        this.connectCallback()
+      } else {
+        console.log('当前处于连接状态')
+      }
+    },
+    connectCallback (frame) {
+      let that = this
+      this.stomp.subscribe('/byte1Over/send', function (result) { // 雷达分机指令的话题
+        let content = JSON.parse(result.body)
+        if (content.sendCode === '0') {
+          for (let i = 0; i < that.radarExtensionNum; i++) {
+            setTimeout(() => {
+              this.$Message.success('指令发送完成')
+            }, 500)
+          }
+        } else {
+          this.$Message.error('指令次数超出限制，请删除指令')
+        }
+      })
+      this.stomp.subscribe('/byteOver/send', function (result) { // 雷达系统指令的话题
+        let content = JSON.parse(result.body)
+        if (content.sendCode === '0') {
+          for (let i = 0; i < that.radarSystemNum; i++) {
+            setTimeout(() => {
+              this.$Message.success('指令发送完成')
+            }, 500)
+          }
+        } else {
+          this.$Message.error('指令次数超出限制，请删除指令')
+        }
+      })
     }
   },
   computed: {
-    ...mapGetters(['hostlist'])
+    ...mapGetters(['hostlist']),
+    code: {
+      get () {
+        return this.$store.state.code
+      }
+    }
   }
 }
 </script>

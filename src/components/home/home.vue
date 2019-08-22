@@ -75,8 +75,7 @@ export default {
   data () {
     return {
       websockData: '',
-      changeColor: false,
-      changeColor1: false,
+      changeColor: '',
       websock: null,
       IDlist: [],
       content: '',
@@ -127,22 +126,18 @@ export default {
     })
   },
   watch: {//监听changeColor的变化，在订阅里改变changecolor的值
-    changeColor () {
-      var cir = document.getElementsByClassName("statuscir")
-      if (this.changeColor === false) {
-        cir[this.position].style.backgroundColor = "rgb(25, 190, 107)"
-      } else {
-        cir[this.position].style.backgroundColor = "rgb(218, 95, 99)"
-      }
-    },
-    changeColor1 () {
-      var cir = document.getElementsByClassName("statuscir")
-      if (this.changeColor1 === true) {
-        cir[this.position].style.backgroundColor = "gray"
-      } else {
-        cir[this.position].style.backgroundColor = "rgb(25, 190, 107)"
-      }
-    }
+   changeColor(){
+     let cir=document.getElementsByClassName("statuscir")
+     if(this.changeColor==='0'){
+       this._setcode('0')
+       cir[that.position].style.backgroundColor="gray"
+     }else if(this.changeColor==='1'){
+       cir[this.position].style.backgroundColor="rgb(218,95,99)"
+     }else{
+       this._setcode('1')       
+       cir[this.position].style.backgroundColor="rgb(25,190,107)"
+     }
+   }
   },
   methods: {
     getchoice (id, index) {
@@ -302,7 +297,8 @@ export default {
       _setToken: 'SET_TOKEN',
       _setpassword: 'SET_PWD',
       _setuserRole: 'SET_ROLE',
-      _sethostlist: 'SET_HOST'
+      _sethostlist: 'SET_HOST',
+      _setcode: 'SET_CODE',
     }),
     connect () {	//定义连接函数
       if (this.stomp == null || !this.stomp.connected) {
@@ -318,9 +314,9 @@ export default {
     connectCallback (frame) {  //连接成功时的回调函数
       let that = this
       this.$refs.showstatus.connect(this.stomp)//父组件里订阅了一个话题，使用$refs可以使子组件里连接上并订阅四个话题
+      this.$refs.insopera.connect(this.stomp)
       this.stomp.subscribe("/deviceConnectSuccess/send", function (result) {
-        let cir = document.getElementsByClassName("statuscir")
-        var content = JSON.parse(result.body);
+        let content = JSON.parse(result.body);
         if (content.device <= 3) {
           that.changeColor = true
           that.$Message.success({
@@ -329,43 +325,40 @@ export default {
           })
           get('/deployment').then((data) => {
             that._sethostlist(data.data)
-            for (var i in that.hostlist) {
+            for (let i in that.hostlist) {
               that.arr.push(that.hostlist[i].host)
             }
             that.position = that.arr.indexOf(content.data.host)
-            cir[that.position].style.backgroundColor = "rgb(25, 190, 107)"
+            that.changeColor='2'
           })
         }
       })
       this.stomp.subscribe("/deviceUnConnect/send", function (result) {
-        var content = JSON.parse(result.body);
+        let content = JSON.parse(result.body);
         let cir = document.getElementsByClassName("statuscir")
-        for (var i in that.hostlist) {
+        for (let i in that.hostlist) {
           that.arr.push(that.hostlist[i].host)
         }
         that.position = that.arr.indexOf(content.data.host)
         if (content) {
-          that.changeColor1 = true
-          cir[that.position].style.backgroundColor = "gray"
+          that.changeColor='0'
         }
       })
       this.stomp.subscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
-        var content = JSON.parse(result.body);
-        for (var i in that.hostlist) {
+        let content = JSON.parse(result.body);
+        for (let i in that.hostlist) {
           that.arr.push(that.hostlist[i].host)
         }
         that.position = that.arr.indexOf(content.data.host)
         if (content) {
-          that.changeColor = true
+          that.changeColor = '1'
           that.content = content
         }
-        var fn = function () {
-          if (that.content == content) { that.changeColor = false }
+        let fn = function () {
+          if (that.content == content) { that.changeColor = '2' }
         }
         console.log(that.changeColor)
         setTimeout(fn, 10000)
-        let cir = document.getElementsByClassName("statuscir")
-        cir[that.position].style.backgroundColor = "rgb(218, 95, 99)"
       })
     },
     errorCallback (e) {//连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
@@ -399,7 +392,8 @@ export default {
       // 映射 this.count 为 store.state.count
       'userName',
       'role',
-      'hostlist'
+      'hostlist',
+      'code'
     ])
   },
   mounted () {
@@ -410,6 +404,7 @@ export default {
         duration: 3
       })
     }
+    console.log(this.code)
   },
   components: {
     tableInformation,

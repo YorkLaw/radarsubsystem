@@ -18,6 +18,9 @@ const mutations = {
   },
   [types.SET_THEHOST] (state, host) {
     state.host = host
+  },
+  [types.SET_CODE] (state, code) {
+    state.code = code
   }
 }
 

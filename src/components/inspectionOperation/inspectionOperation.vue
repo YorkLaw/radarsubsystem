@@ -4,7 +4,7 @@
           v-show="card">
       <Card v-show="timeshow">
         <Icon type="ios-desktop-outline"
-              class="icon" />当前设备: {{this.hostlist[0].host}}&#x3000;&#x3000;同时发送: <i-switch v-model="updateAll"
+              class="icon" />当前设备: {{this.hostlist[0].host}}&#x3000;&#x3000;统一发送: <i-switch v-model="updateAll"
                   size="small"
                   style="margin-top:-3px;width:40px">
           <span slot="open">是</span><span slot="close">否</span>
@@ -54,7 +54,7 @@
       </Card>
       <Card v-show="timeshow2">
         <Icon type="ios-desktop-outline"
-              class="icon" />当前设备: {{this.hostlist[1].host}}&#x3000;&#x3000;同时发送: <i-switch v-model="updateAll"
+              class="icon" />当前设备: {{this.hostlist[1].host}}&#x3000;&#x3000;统一发送: <i-switch v-model="updateAll"
                   size="small"
                   style="margin-top:-3px;width:40px">
           <span slot="open">是</span>
@@ -105,7 +105,7 @@
       </Card>
       <Card v-show="timeshow3">
         <Icon type="ios-desktop-outline"
-              class="icon" />当前设备: {{this.hostlist[2].host}}&#x3000;&#x3000;同时发送: <i-switch v-model="updateAll"
+              class="icon" />当前设备: {{this.hostlist[2].host}}&#x3000;&#x3000;统一发送: <i-switch v-model="updateAll"
                   size="small"
                   style="margin-top:-3px;width:40px">
           <span slot="open">是</span>
@@ -205,6 +205,7 @@ export default {
   props: ['zjdevice'],
   data () {
     return {
+      stomp: null,
       self: this,
       timeshow: true,
       timeshow2: false,
@@ -382,6 +383,17 @@ export default {
     },
     deleteno () {
       this.deleteCode = '0'
+    },
+    connect (stomp) {
+      if (stomp !== null || !stomp.connected) {
+        this.stomp = stomp
+        this.connectCallback()
+      } else {
+        console.log('当前处于连接状态')
+      }
+    },
+    connectCallback (frame) {
+      this.$refs.workflow.connect(this.stomp)
     }
   },
   components: {

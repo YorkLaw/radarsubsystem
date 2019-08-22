@@ -60,7 +60,7 @@ import { mapGetters } from 'vuex'
 export default {
   props: { 'updateAll': Boolean, 'device': Number },
   computed: {
-    ...mapGetters(['ip', 'hostlist'])
+    ...mapGetters(['ip', 'hostlist', 'code'])
   },
   data () {
     return {
@@ -107,13 +107,17 @@ export default {
       this.sendRequest(urlN)
     },
     sendPatten () {
-      this.$refs['formValidate'].validate((valid) => {
-        if (valid) {
-          this.sendpatten = true
-        } else {
-          this.$Message.error('输入不完整')
-        }
-      })
+      if (this.code === '1') {
+        this.$refs['formValidate'].validate((valid) => {
+          if (valid) {
+            this.sendpatten = true
+          } else {
+            this.$Message.error('输入不完整')
+          }
+        })
+      } else {
+        this.$Message.error('此设备未连接')
+      }
     },
     timingSend () { // 定时发送
       this.sendCode = '1'

@@ -32,24 +32,24 @@
         <p>确定要撤消刚才做出的更改吗?</p>
       </Modal>
       <Modal v-model="sendpatten"
-           title="选择发送模式"
-           @on-ok="sendData">
-      <Button @click="sendCode='0'">即刻发送</Button>
-      <Button style="margin-left: 8px"
-              @click="timingSend">定时发送</Button>
-    </Modal>
-    <Modal v-model="sendtime"
-           title="选择定时发送时间">
-      <Date-picker type="date"
-                   :options="options3"
-                   placeholder="选择日期"
-                   v-model="pickDate"></Date-picker>
-      <Time-picker type="time"
-                   size="small"
-                   placeholder="选择时间"
-                   format="HH点mm分ss秒"
-                   v-model="pickTime"></Time-picker>
-    </Modal>
+             title="选择发送模式"
+             @on-ok="sendData">
+        <Button @click="sendCode='0'">即刻发送</Button>
+        <Button style="margin-left: 8px"
+                @click="timingSend">定时发送</Button>
+      </Modal>
+      <Modal v-model="sendtime"
+             title="选择定时发送时间">
+        <Date-picker type="date"
+                     :options="options3"
+                     placeholder="选择日期"
+                     v-model="pickDate"></Date-picker>
+        <Time-picker type="time"
+                     size="small"
+                     placeholder="选择时间"
+                     format="HH点mm分ss秒"
+                     v-model="pickTime"></Time-picker>
+      </Modal>
     </Form>
   </div>
 
@@ -63,7 +63,6 @@
 </style>
 
 <script>
-import { GMTToStr } from '@/api/transformDate'
 import { post } from '@/api/axios.js'
 import * as storage from '@/api/localstorage.js'
 import { mapGetters } from 'vuex'
@@ -146,13 +145,17 @@ export default {
       if (date.length !== 0) { this.localDate = date }
     },
     sendPatten () {
-      this.$refs['formValidate'].validate((valid) => {
-        if (valid) {
-          this.sendpatten = true
-        } else {
-          this.$Message.error('输入不完整')
-        }
-      })
+      if (this.code === '1') {
+        this.$refs['formValidate'].validate((valid) => {
+          if (valid) {
+            this.sendpatten = true
+          } else {
+            this.$Message.error('输入不完整')
+          }
+        })
+      } else {
+        this.$Message.error('此设备未连接')
+      }
     },
     timingSend () { // 定时发送
       this.sendCode = '1'
@@ -242,7 +245,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['ip', 'hostlist'])
+    ...mapGetters(['ip', 'hostlist', 'code'])
   }
 }
 </script>

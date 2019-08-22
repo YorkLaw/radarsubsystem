@@ -4,7 +4,8 @@ const state = {
   password: '',
   role: 0,
   hostlist: [],
-  host: null
+  host: null,
+  code: ''
 }
 
 export default state

@@ -411,13 +411,17 @@ export default {
       this.modal1 = false
     },
     sendPatten () {
-      this.$refs['formValidate'].validate((valid) => {
-        if (valid) {
-          this.sendpatten = true
-        } else {
-          this.$Message.error('输入不完整')
-        }
-      })
+      if (this.code === '1') {
+        this.$refs['formValidate'].validate((valid) => {
+          if (valid) {
+            this.sendpatten = true
+          } else {
+            this.$Message.error('输入不完整')
+          }
+        })
+      } else {
+        this.$Message.error('此设备未连接')
+      }
     },
     timingSend () { // 定时发送
       this.sendCode = '1'
@@ -543,7 +547,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['ip', 'hostlist'])
+    ...mapGetters(['ip', 'hostlist', 'code'])
   }
 }
 </script>
