@@ -2179,7 +2179,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.code)
+    // console.log(this.code)
   },
   methods: {
     _getdate (date) {
@@ -2495,25 +2495,31 @@ export default {
       // console.log(this.arr1)
     },
     sendExtension () {
-      if (this.radarExtensionNum > 0) {
+      if (this.arr.length <= 0) {
+        this.$Message.error('请添加雷达分机指令')
+      } else if (this.arr.length > 0 && this.arr.length <= 16) {
         for (let i = 0; i < this.radarExtensionNum; i++) {
           setTimeout(() => {
             this.checkExtensionNum()
+            this.$Message.success('指令发送完成')
           }, 500)
         }
-      } else {
-        this.$Message.error('请添加雷达分机指令')
+      } else if (this.arr.length > 16) {
+        this.$Message.error('雷达分机指令数量过多，无法发送')
       }
     },
     sendSystem () { // 发送雷达系统指令
-      if (this.radarSystemNum > 0) {
+      if (this.arr1.length <= 0) {
+        this.$Message.error('请添加雷达系统指令')
+      } else if (this.arr1.length > 0 && this.arr1.length <= 10) {
         for (let i = 0; i < this.radarSystemNum; i++) {
           setTimeout(() => {
             this.checkSystemNum()
+            this.$Message.success('指令发送完成')
           }, 500)
         }
-      } else {
-        this.$Message.error('请添加雷达系统指令')
+      } else if (this.arr1.length > 10) {
+        this.$Message.error('雷达分机指令数量过多，无法发送')
       }
     },
     extension (url) { // 分机指令
@@ -2821,12 +2827,9 @@ export default {
       let that = this
       this.stomp.subscribe('/byte1Over/send', function (result) { // 雷达分机指令的话题
         let content = JSON.parse(result.body)
+        // console.log(content.sendCode)
         if (content.sendCode === '0') {
-          for (let i = 0; i < that.radarExtensionNum; i++) {
-            setTimeout(() => {
-              this.$Message.success('指令发送完成')
-            }, 500)
-          }
+
         } else {
           this.$Message.error('指令次数超出限制，请删除指令')
         }

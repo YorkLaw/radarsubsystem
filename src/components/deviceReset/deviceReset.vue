@@ -80,7 +80,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['ip', 'hostlist','code'])
+    ...mapGetters(['ip', 'hostlist', 'code'])
   },
   methods: {
     _getdate (date) {

@@ -17,18 +17,25 @@ export default new Router({
     {
       path: '/',
       name: '/',
-      component: Login
+      component: Login,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/home',
       name: 'Home',
       meta: {
-        requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+        keepAlive: false // 添加此字段，表示进入此路由是不需要缓存的
       },
       component: Home
     }

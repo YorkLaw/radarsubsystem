@@ -7,7 +7,7 @@ import QS from 'qs'
 // import { Toast } from 'vant'
 import router from '@/router'
 import store from '../store/index'
-let serviceConfig = 'http://192.168.31.159:8090' // 'http://192.168.31.88:8080'
+let serviceConfig = 'http://127.0.0.1:8090' // 'http://192.168.31.88:8080'
 
 // const axios = service.create({
 //   baseURL: serviceConfig // api的base_url

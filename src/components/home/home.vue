@@ -124,20 +124,21 @@ export default {
     window.addEventListener("click", function (e) {
       e.preventDefault()
     })
+    // this.connect()
   },
   watch: {//监听changeColor的变化，在订阅里改变changecolor的值
-   changeColor(){
-     let cir=document.getElementsByClassName("statuscir")
-     if(this.changeColor==='0'){
-       this._setcode('0')
-       cir[that.position].style.backgroundColor="gray"
-     }else if(this.changeColor==='1'){
-       cir[this.position].style.backgroundColor="rgb(218,95,99)"
-     }else{
-       this._setcode('1')       
-       cir[this.position].style.backgroundColor="rgb(25,190,107)"
-     }
-   }
+    changeColor () {
+      let cir = document.getElementsByClassName("statuscir")
+      if (this.changeColor === '0') {
+        this._setcode('0')
+        cir[that.position].style.backgroundColor = "gray"
+      } else if (this.changeColor === '1') {
+        cir[this.position].style.backgroundColor = "rgb(218,95,99)"
+      } else {
+        this._setcode('1')
+        cir[this.position].style.backgroundColor = "rgb(25,190,107)"
+      }
+    }
   },
   methods: {
     getchoice (id, index) {
@@ -220,6 +221,8 @@ export default {
       }
     },
     exit () {
+      this._setToken('')
+      cookie.removetoken()
       let obj = { 'exituser': this.userName }
       post('/logout', obj).then((data) => {
         this.$Message.success({
@@ -227,11 +230,10 @@ export default {
           duration: 1
         })
         // 清除token
-        this._setToken('')
-        cookie.removetoken()
         this.$router.push({
           name: 'Login'
         })
+        // this.connect()
       }).catch(() => {
         this.$Message.error({
           content: '请求出错',
@@ -263,7 +265,6 @@ export default {
           })
         })
       }
-
     },
     addUser (obj) {
       post('/adduser', obj).then((data) => {
@@ -301,8 +302,9 @@ export default {
       _setcode: 'SET_CODE',
     }),
     connect () {	//定义连接函数
-      if (this.stomp == null || !this.stomp.connected) {
-        this.stomp = Stomp.over(new SockJS('http://192.168.31.159:8090' + '/stomp'))
+      // console.log(this.stomp)
+      if (this.stomp == null || (this.stomp !== null && !this.stomp.connected)) {
+        this.stomp = Stomp.over(new SockJS('http://127.0.0.1:8090' + '/stomp'))
         // this._setstomp(stomp)
         this.stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
         this.stomp.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
@@ -329,7 +331,7 @@ export default {
               that.arr.push(that.hostlist[i].host)
             }
             that.position = that.arr.indexOf(content.data.host)
-            that.changeColor='2'
+            that.changeColor = '2'
           })
         }
       })
@@ -341,7 +343,7 @@ export default {
         }
         that.position = that.arr.indexOf(content.data.host)
         if (content) {
-          that.changeColor='0'
+          that.changeColor = '0'
         }
       })
       this.stomp.subscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
@@ -357,25 +359,28 @@ export default {
         let fn = function () {
           if (that.content == content) { that.changeColor = '2' }
         }
-        console.log(that.changeColor)
+        // console.log(that.changeColor)
         setTimeout(fn, 10000)
       })
     },
     errorCallback (e) {//连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
-      alert("当前登录状态信息已过期，请重新登录");
-      this.exit()
-      this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/uploadRadarSubSystemWorkStatusMessage/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/uploadDeviceNetWorkParamMessage/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/uploadSelfInspectionResult/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/uploadHeartBeatMessage/send", function (result) {
-      }, {});
-      this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
-      }, {});
+      // console.log(this.$store.state.token)
+      if (this.$store.state.token && this.$store.state.token !== '') {
+        alert("当前登录状态信息已过期，请重新登录");
+        this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
+        }, {});
+        this.stomp.unsubscribe("/uploadRadarSubSystemWorkStatusMessage/send", function (result) {
+        }, {});
+        this.stomp.unsubscribe("/uploadDeviceNetWorkParamMessage/send", function (result) {
+        }, {});
+        this.stomp.unsubscribe("/uploadSelfInspectionResult/send", function (result) {
+        }, {});
+        this.stomp.unsubscribe("/uploadHeartBeatMessage/send", function (result) {
+        }, {});
+        this.stomp.unsubscribe("/receiveHeartbeatCMD/sendToHeartBeat", function (result) {
+        }, {});
+        this.exit()
+      }
     }
   },
   computed: {
@@ -404,7 +409,6 @@ export default {
         duration: 3
       })
     }
-    console.log(this.code)
   },
   components: {
     tableInformation,

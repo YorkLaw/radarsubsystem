@@ -518,7 +518,7 @@ export default {
         updateAll1 = 1
       }
       datelocal.updateAll = updateAll1
-      console.log(datelocal)
+      // console.log(datelocal)
       post(url, datelocal).then((data) => {
         if (data.code === 1) {
           setTimeout(() => {

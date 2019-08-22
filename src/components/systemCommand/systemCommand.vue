@@ -21,43 +21,43 @@
       </FormItem>
       <FormItem label="工作周期"
                 prop="workCycle">
-         <InputNumber v-model="formValidate.workCycle"
-                   placeholder="单位：50ms"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+        <InputNumber v-model="formValidate.workCycle"
+                     placeholder="单位：50ms"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
       </FormItem>
       <FormItem label="工作周期数"
                 prop="workCycleAmount">
         <InputNumber v-model="formValidate.workCycleAmount"
-                   placeholder="工作次数"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+                     placeholder="工作次数"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
       </FormItem>
       <FormItem label="起始频率"
                 prop="beginFrequency">
         <InputNumber v-model="formValidate.beginFrequency"
-                   placeholder="分辨率:1 MHz"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+                     placeholder="分辨率:1 MHz"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
       </FormItem>
       <FormItem label="终止频率"
                 prop="endFrequency">
         <InputNumber v-model="formValidate.endFrequency"
-                   placeholder="分辨率:1 MHz"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+                     placeholder="分辨率:1 MHz"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
       </FormItem>
       <FormItem label="频率步进"
                 prop="steppedFrequency">
-            <InputNumber v-model="formValidate.steppedFrequency"
-                   placeholder="单位:MHz"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+        <InputNumber v-model="formValidate.steppedFrequency"
+                     placeholder="单位:MHz"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
       </FormItem>
       <FormItem label="带宽选择"
                 prop="chooseBandwidth">
@@ -95,11 +95,11 @@
       </FormItem>
       <FormItem label="自检源衰减"
                 prop="selfInspectionAttenuation">
-       <InputNumber v-model="formValidate.selfInspectionAttenuation"
-                   placeholder="单位:MHz"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+        <InputNumber v-model="formValidate.selfInspectionAttenuation"
+                     placeholder="单位:MHz"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
       </FormItem>
       <FormItem label="脉内引导批次号开关"
                 prop="guidanceSwitch">
@@ -113,18 +113,18 @@
       <FormItem label="脉内引导批次号"
                 prop="guidance">
         <InputNumber v-model="formValidate.guidance"
-                   placeholder="单位:MHz"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+                     placeholder="单位:MHz"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
       </FormItem>
       <FormItem label="故障检测门限"
                 prop="faultDetect">
-         <InputNumber v-model="formValidate.faultDetect"
-                   placeholder="单位:MHz"
-                   :min="1"
-                   style="width:120px">
-            </InputNumber>
+        <InputNumber v-model="formValidate.faultDetect"
+                     placeholder="单位:MHz"
+                     :min="1"
+                     style="width:120px">
+        </InputNumber>
         </Select>
       </FormItem>
     </Form>
@@ -154,43 +154,43 @@ export default {
       },
       ruleValidate: {
         workPattern: [
-          { required: true,type:'string', message: '选择工作模式', trigger: 'change' }
+          { required: true, type: 'string', message: '选择工作模式', trigger: 'change' }
         ],
         workCycle: [
-          { required: true,type:'number', message: '输入工作周期', trigger: 'blur' }
+          { required: true, type: 'number', message: '输入工作周期', trigger: 'blur' }
         ],
         workCycleAmount: [
-          { required: true,type:'number', message: '输入工作周期数', trigger: 'blur' }
+          { required: true, type: 'number', message: '输入工作周期数', trigger: 'blur' }
         ],
         beginFrequency: [
-          { required: true,type:'number', message: '输入起始频率', trigger: 'blur' }
+          { required: true, type: 'number', message: '输入起始频率', trigger: 'blur' }
         ],
         endFrequency: [
-          { required: true,type:'number',type:'number', message: '输入终止频率', trigger: 'blur' }
+          { required: true, type: 'number', type: 'number', message: '输入终止频率', trigger: 'blur' }
         ],
         steppedFrequency: [
-          { required: true,type:'number', message: '设置频率步进', trigger: 'blur' }
+          { required: true, type: 'number', message: '设置频率步进', trigger: 'blur' }
         ],
         chooseBandwidth: [
-          { required: true,type:'string', message: '选择工作模式', trigger: 'change' }
+          { required: true, type: 'string', message: '选择工作模式', trigger: 'change' }
         ],
         chooseAntenna1: [
-          { required: true,type:'string', message: '天线一未选择', trigger: 'change' }
+          { required: true, type: 'string', message: '天线一未选择', trigger: 'change' }
         ],
         chooseAntenna2: [
-          { required: true,type:'string', message: '天线二未选择', trigger: 'change' }
+          { required: true, type: 'string', message: '天线二未选择', trigger: 'change' }
         ],
         selfInspectionAttenuation: [
-          { required: true,type:'number', message: '设置衰减值', trigger: 'blur' }
+          { required: true, type: 'number', message: '设置衰减值', trigger: 'blur' }
         ],
         guidanceSwitch: [
-          { required: true,type:'string', message: '选择开关', trigger: 'change' }
+          { required: true, type: 'string', message: '选择开关', trigger: 'change' }
         ],
         guidance: [
-          { required: true,type:'number', message: '输入批次号', trigger: 'blur' }
+          { required: true, type: 'number', message: '输入批次号', trigger: 'blur' }
         ],
         faultDetect: [
-          { required: true,type:'number', message: '设置门限值', trigger: 'blur' }
+          { required: true, type: 'number', message: '设置门限值', trigger: 'blur' }
         ]
       }
 
@@ -209,16 +209,16 @@ export default {
       this.handleSubmit('formValidate')
     },
     cancel (name) {
-      this.modal1=true;
-      this.$nextTick(()=>{ this.$refs[name].resetFields();})
+      this.modal1 = true;
+      this.$nextTick(() => { this.$refs[name].resetFields(); })
     },
-    sure(){
+    sure () {
       this.cancel('formValidate')
-      this.modal1=false;
+      this.modal1 = false;
     },
-     saveData(){
-      this.saveform.formValidate=this.formValidate
-      this.saveform.isOnly=this.isOnly
+    saveData () {
+      this.saveform.formValidate = this.formValidate
+      this.saveform.isOnly = this.isOnly
     },
     handleSubmit (name) {
       console.log(this.formValidate)

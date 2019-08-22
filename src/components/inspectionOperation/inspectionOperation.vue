@@ -379,7 +379,7 @@ export default {
     },
     delete1 () {
       this.deleteCode = '1'
-      console.log(this.deleteCode)
+      // console.log(this.deleteCode)
     },
     deleteno () {
       this.deleteCode = '0'
